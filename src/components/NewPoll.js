@@ -11,30 +11,64 @@ const { REACT_APP_BACKEND_URL } = process.env;
 const NewPoll = () => {
   let navigate = useNavigate();
   const questionRef = useRef();
-  const [errorState, setErrorState] = useState(null);
+  const [choices, setChoices] = useState([
+    {
+      key: 0,
+      id: "choice0",
+      choiceName: "choice0",
+    },
+  ]);
   const [choiceExists, setChoiceExists] = useState(false);
-  const [choiceCount, setChoiceCount] = useState(1);
-  const [choiceInput] = useState([]);
-  let choices = [];
+
+  const [errorState, setErrorState] = useState([]);
+  const questionError = {
+    code: 1,
+    message: "Question must be 3 characters or more",
+  };
+  const choiceError = {
+    code: 2,
+    message: "You need at least one choice",
+  };
+
   let statusCode;
 
   const onFormSubmit = (event) => {
     event.preventDefault();
-    if (questionRef.current.value.length < 3) {
-      setErrorState("Question must be 3 characters or more");
-    } else if (!choiceExists) {
-      setErrorState("You need at least one choice");
+    if (questionRef.current.value.length < 3 || !choiceExists) {
+      if (questionRef.current.value.length < 3) {
+        setErrorState((prevErrors) => {
+          let questionErrAlreadyExists = false;
+          prevErrors.forEach((e) => {
+            if (e.code === 1) {
+              questionErrAlreadyExists = true;
+            }
+          });
+          let updatedErrors = [...prevErrors];
+          if (!questionErrAlreadyExists) {
+            updatedErrors.push(questionError);
+          }
+          return updatedErrors;
+        });
+      }
+      if (!choiceExists) {
+        setErrorState((prevErrors) => {
+          let choiceErrAlreadyExists = false;
+          prevErrors.forEach((e) => {
+            if (e.code === 2) {
+              choiceErrAlreadyExists = true;
+            }
+          });
+          let updatedErrors = [...prevErrors];
+          if (!choiceErrAlreadyExists) {
+            updatedErrors.push(choiceError);
+          }
+          return updatedErrors;
+        });
+      }
     } else {
-      setErrorState(null);
+      setErrorState();
 
       const choicesData = [];
-
-      // choices.forEach((choice) => {
-      //   console.log(event.target[3]);
-      //   choicesData.push({
-      //     name: choiceInput[choice.key],
-      //   });
-      // });
 
       for (let i = 0; i < choices.length; i++) {
         if (event.target[i + 2].value.length > 0) {
@@ -61,7 +95,7 @@ const NewPoll = () => {
       })
         .then((res) => {
           statusCode = res.status;
-          return res.json()
+          return res.json();
         })
         .then((res) => {
           if (statusCode === 201) {
@@ -74,58 +108,53 @@ const NewPoll = () => {
     }
   };
 
-  const choiceChangeHandler = (event) => {
-    if (!choiceExists) setChoiceExists(true);
-
-    if (event.target.id === `choice${choiceCount - 1}`) {
-      setChoiceCount(choiceCount + 1);
+  const questionChangeHandler = (event) => {
+    if (event.target.value.length >= 3) {
+      setErrorState((prevErrors) => {
+        let updatedErrors = [...prevErrors];
+        for (let i = 0; i < prevErrors.length; i++) {
+          if (prevErrors[i].code === 1) {
+            updatedErrors.splice(i, 1);
+          }
+        }
+        return updatedErrors;
+      });
     }
-
-    // if (event.target.id === ("choice" + String(choices.length))) {
-    //   setChoices((prevChoices) => {
-    //     const choiceId = "choice" + String(choices.length + 1);
-    //     const updatedChoices = [...prevChoices];
-    //     updatedChoices.push(
-    //       <input
-    //         key={choices.length}
-    //         id={choiceId}
-    //         type="text"
-    //         autoComplete="off"
-    //         placeholder="Choice"
-    //         onChange={choiceChangeHandler}
-    //       />
-    //     );
-    //     return updatedChoices;
-    //   });
-    //   console.log(choices.length)
-    // }
   };
 
-  // const [choices, setChoices] = useState([
-  //   <input
-  //     key="0"
-  //     id="choice1"
-  //     type="text"
-  //     autoComplete="off"
-  //     placeholder="Choice"
-  //     onChange={choiceChangeHandler}
-  //   />,
-  // ]);
+  const choiceChangeHandler = (event) => {
+    if (event.target.id === "choice0") {
+      if (event.target.value.length > 0) {
+        if (!choiceExists) {
+          setChoiceExists(true);
+          setErrorState((prevErrors) => {
+            let updatedErrors = [...prevErrors];
+            for (let i = 0; i < prevErrors.length; i++) {
+              if (prevErrors[i].code === 2) {
+                updatedErrors.splice(i, 1);
+              }
+            }
+            return updatedErrors;
+          });
+        }
+      } else {
+        setChoiceExists(false);
+      }
+    }
 
-  for (let i = 0; i < choiceCount; i++) {
-    choices.push(
-      <input
-        key={i}
-        id={`choice${i}`}
-        name={`choice${i}`}
-        type="text"
-        autoComplete="off"
-        placeholder="Choice"
-        onChange={choiceChangeHandler}
-        value={choiceInput[i]}
-      />
-    );
-  }
+    if (event.target.id === `choice${choices.length - 1}`) {
+      setChoices((prevChoices) => {
+        const number = prevChoices.length;
+        let updatedChoices = [...prevChoices];
+        updatedChoices.push({
+          key: number,
+          id: `choice${number}`,
+          choiceName: `choice${number}`,
+        });
+        return updatedChoices;
+      });
+    }
+  };
 
   return (
     <motion.div
@@ -138,17 +167,22 @@ const NewPoll = () => {
       <Navbar />
       <Card>
         <form className={styles.Form} onSubmit={onFormSubmit}>
-          {errorState && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              className={styles.Error}
-            >
-              {errorState}
-            </motion.div>
-          )}
+          {errorState &&
+            errorState.map((e) => {
+              return (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className={styles.Error}
+                  key={e.code}
+                >
+                  {e.message}
+                </motion.div>
+              );
+            })}
+
           <div className={styles.Container}>
             <label>Question:</label>
             <input
@@ -157,6 +191,7 @@ const NewPoll = () => {
               placeholder="What do you want to ask?"
               ref={questionRef}
               autoComplete="off"
+              onChange={questionChangeHandler}
             />
           </div>
           <div className={styles.Container}>
@@ -171,7 +206,19 @@ const NewPoll = () => {
           </div>
           <div className={styles.Container}>
             Choices:
-            {choices}
+            {choices.map((e) => {
+              return (
+                <input
+                  key={e.key}
+                  id={e.id}
+                  name={e.choiceName}
+                  type="text"
+                  autoComplete="off"
+                  placeholder="Choice"
+                  onChange={choiceChangeHandler}
+                />
+              );
+            })}
           </div>
 
           <Button type="submit" className={styles.Button}>
