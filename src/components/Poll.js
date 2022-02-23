@@ -41,7 +41,6 @@ const Poll = () => {
 
   let finalChoices = [];
   for (let i = 0; i < pollChoices.length; i++) {
-    // aaa
     finalChoices.push(<Choice key={choiceId[i]}choiceName={pollChoices[i]} voteCount={pollVoteCounts[i]} />);
   }
 
