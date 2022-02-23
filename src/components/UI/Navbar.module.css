@@ -1,0 +1,43 @@
+.Navbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem 0rem 1rem 0rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgb(42, 41, 46);
+  width: 100%;
+  box-shadow: 1px 1px 6px 0px black;
+}
+
+.Link {
+  font-size: 2.5rem;
+  color: rgb(255, 68, 11);
+  font-weight: bold;
+  text-decoration: none;
+  -webkit-text-stroke: 1px white;
+}
+
+.Button {
+  text-decoration: none;
+  background-color: rgb(255, 68, 11);
+  font-weight: bold;
+  color: white;
+  border-radius: 4px;
+  border: none;
+  padding: 0.75rem;
+  box-shadow: 0px 0px 10px 0px #000000;
+  font-size: 1rem;
+  transition: all 0.25s ease;
+}
+
+.Button:hover {
+  background-color: rgb(173, 60, 26);
+  transition: all 0.25s ease;
+}
+
+.Button:active {
+  background-color: rgb(145, 47, 17);
+  transition: all 0.25s ease;
+}

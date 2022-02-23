@@ -1,0 +1,21 @@
+.Button {
+    background-color: rgb(255, 68, 11);
+    font-weight: bold;
+    color: white;
+    border-radius: 4px;
+    border: none;
+    padding: 0.5rem;
+    box-shadow: 0px 0px 10px 0px #000000;
+    font-size: 1.5rem;
+    transition: all 0.25s ease;
+}
+
+.Button:hover {
+    background-color: rgb(173, 60, 26);
+    transition: all 0.25s ease;
+}
+
+.Button:active {
+    background-color: rgb(145, 47, 17);
+    transition: all 0.25s ease;
+}

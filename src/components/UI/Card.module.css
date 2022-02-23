@@ -1,0 +1,17 @@
+.Card {
+    background-color: rgb(42, 41, 46);
+    padding: 2rem;
+    border-radius: 8px;
+    width: 100%;
+    box-shadow: 1px 1px 6px 0px black;
+    max-width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 768px) {
+    .Card {
+        width: 50%;
+    }
+}

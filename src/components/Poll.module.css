@@ -1,0 +1,45 @@
+.MotionDiv {
+  text-align: center;
+  background-color: #1b1d22;
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.PollQuestion {
+  text-align: left;
+  font-size: 2rem;
+}
+
+.PollNameText {
+  text-align: left;
+  font-size: 1rem;
+  color: gray;
+}
+
+.Italics {
+  font-style: italic;
+  transition: none !important;
+}
+
+.Container {
+  display: grid;
+  gap: 3rem;
+}
+
+.ChoicesContainer {
+  display: grid;
+  gap: 1rem;
+}
+
+.ErrorText {
+  color: rgb(187, 60, 60);
+  font-weight: bold;
+  transition: none !important;
+}

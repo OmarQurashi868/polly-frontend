@@ -1,0 +1,67 @@
+.MotionDiv {
+  text-align: center;
+  background-color: #1b1d22;
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.Form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.Form input {
+  height: 2rem;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: rgb(66, 66, 66);
+  color: white;
+  border-radius: 4px;
+  border: none;
+  padding: 0 0.5rem 0 0.5rem;
+}
+
+Button {
+  width: 100%;
+}
+
+.Error {
+  color: rgb(235, 66, 66);
+  font-weight: bold;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.Container {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .Form {
+    font-size: 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .Form input {
+    height: 2.5rem;
+    font-size: 1.5rem;
+    padding: 0 1rem 0 1rem;
+  }
+
+  Button {
+    width: 25%;
+    align-self: flex-end;
+  }
+}
