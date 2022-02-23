@@ -33,11 +33,6 @@
   gap: 3rem;
 }
 
-.ChoicesContainer {
-  display: grid;
-  gap: 1rem;
-}
-
 .ErrorText {
   color: rgb(187, 60, 60);
   font-weight: bold;

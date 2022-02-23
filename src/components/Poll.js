@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import styles from "./Poll.module.css";
 import Card from "./UI/Card";
 import Navbar from "./UI/Navbar";
-import Choice from "./UI/Choice";
+import ChoicesList from "./ChoicesList";
 
 const { REACT_APP_BACKEND_URL } = process.env;
 
@@ -35,12 +35,6 @@ const Poll = () => {
       });
   }, [id]);
 
-  // let finalChoices = [];
-  // for (let i = 0; i < pollChoices.length; i++) {
-  //   console.log(choiceId);
-  //   finalChoices.push(<Choice choiceKey={choiceId[i]} choiceName={pollChoices[i]} voteCount={pollVoteCounts[i]} />);
-  // }
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -64,17 +58,7 @@ const Poll = () => {
                 Asked by <span className={styles.Italics}>{pollName}</span>
               </div>
             </div>
-            <ul className={styles.ChoicesContainer}>
-              {pollChoices.map((e) => {
-                return (
-                  <Choice
-                    key={e._id}
-                    choiceName={e.name}
-                    voteCount={e.voteCount}
-                  />
-                );
-              })}
-            </ul>
+            <ChoicesList pollChoices={pollChoices} />
           </Fragment>
         )}
       </Card>
