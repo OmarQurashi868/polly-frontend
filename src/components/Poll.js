@@ -14,8 +14,6 @@ const Poll = () => {
   const [pollName, setPollName] = useState();
   const [errorState, setErrorState] = useState();
   const [pollChoices, setPollChoices] = useState([]);
-  const [pollVoteCounts, setPollVoteCounts] = useState([]);
-  const [choiceId, setChoiceId] = useState([]);
 
   useEffect(() => {
     fetch(`${REACT_APP_BACKEND_URL}/${id}`, {
@@ -33,16 +31,15 @@ const Poll = () => {
       .then((res) => {
         setPollQuestion(res.question);
         setPollName(res.name);
-        setPollChoices(res.choices.map(choice => choice.name));
-        setPollVoteCounts(res.choices.map(choice => choice.voteCount));
-        setChoiceId(res.choices.map(choice => choice._id));
+        setPollChoices(res.choices);
       });
-  }, []);
+  }, [id]);
 
-  let finalChoices = [];
-  for (let i = 0; i < pollChoices.length; i++) {
-    finalChoices.push(<Choice key={choiceId[i]}choiceName={pollChoices[i]} voteCount={pollVoteCounts[i]} />);
-  }
+  // let finalChoices = [];
+  // for (let i = 0; i < pollChoices.length; i++) {
+  //   console.log(choiceId);
+  //   finalChoices.push(<Choice choiceKey={choiceId[i]} choiceName={pollChoices[i]} voteCount={pollVoteCounts[i]} />);
+  // }
 
   return (
     <motion.div
@@ -56,7 +53,8 @@ const Poll = () => {
       <Card className={styles.Container}>
         {errorState ? (
           <div className={styles.ErrorText}>
-            Poll with ID <span className={styles.Italics}>{id}</span> was not found!
+            Poll with ID <span className={styles.Italics}>{id}</span> was not
+            found!
           </div>
         ) : (
           <Fragment>
@@ -66,9 +64,17 @@ const Poll = () => {
                 Asked by <span className={styles.Italics}>{pollName}</span>
               </div>
             </div>
-            <div className={styles.ChoicesContainer}>
-              {finalChoices}
-              </div>
+            <ul className={styles.ChoicesContainer}>
+              {pollChoices.map((e) => {
+                return (
+                  <Choice
+                    key={e._id}
+                    choiceName={e.name}
+                    voteCount={e.voteCount}
+                  />
+                );
+              })}
+            </ul>
           </Fragment>
         )}
       </Card>

@@ -1,5 +1,5 @@
 const Choice = (props) => {
-    return <div>{props.choiceName} votes {props.voteCount}</div>
+    return <li>{props.choiceName} votes {props.voteCount}</li>
 };
 
 export default Choice;
