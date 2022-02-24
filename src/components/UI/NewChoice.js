@@ -1,6 +1,7 @@
-import { useContext, useState, Fragment, useRef } from "react";
+import { useContext, useState, useRef, useEffect } from "react";
 import styles from "./NewChoice.module.css";
 import { PollContext } from "../Poll";
+import { motion } from "framer-motion";
 
 const { REACT_APP_BACKEND_URL } = process.env;
 
@@ -13,6 +14,12 @@ const NewChoice = () => {
   const onButtonClickHandler = () => {
     setInputState(true);
   };
+
+  useEffect(() => {
+    if (document.getElementById("newChoice")) {
+      document.getElementById("newChoice").scrollIntoView();
+    }
+  }, [inputState]);
 
   const onCancelHandler = () => {
     setInputState(false);
@@ -52,10 +59,22 @@ const NewChoice = () => {
   };
 
   return (
-    <Fragment>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      className={styles.MotionDiv}
+    >
       {errorState && <div className={styles.Error}>{errorState}</div>}
       {inputState && (
-        <Fragment>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          className={styles.MotionDiv}
+        >
           <div className={styles.TextContainer}>Add new choice:</div>
           <input
             id="newChoice"
@@ -64,6 +83,7 @@ const NewChoice = () => {
             ref={choiceRef}
             autoComplete="off"
             className={styles.Input}
+            autoFocus
           />
           <div className={styles.ButtonContainer}>
             <button
@@ -79,17 +99,25 @@ const NewChoice = () => {
               Submit
             </button>
           </div>
-        </Fragment>
+        </motion.div>
       )}
       {!inputState && (
-        <button
-          onClick={onButtonClickHandler}
-          className={styles.NewChoiceButton}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          className={styles.MotionDiv}
         >
-          +
-        </button>
+          <button
+            onClick={onButtonClickHandler}
+            className={styles.NewChoiceButton}
+          >
+            +
+          </button>
+        </motion.div>
       )}
-    </Fragment>
+    </motion.div>
   );
 };
 

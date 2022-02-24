@@ -57,3 +57,8 @@ Input {
   display: flex;
   gap: 1rem;
 }
+
+.MotionDiv {
+  display: grid;
+  gap: 1rem;
+}
