@@ -1,4 +1,10 @@
-import { useEffect, useState, Fragment, createContext } from "react";
+import {
+  useEffect,
+  useState,
+  Fragment,
+  createContext,
+  useCallback,
+} from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import styles from "./Poll.module.css";
@@ -16,6 +22,11 @@ const Poll = () => {
   const [pollName, setPollName] = useState();
   const [errorState, setErrorState] = useState();
   const [pollChoices, setPollChoices] = useState([]);
+  const [isChanged, setIsChanged] = useState(false);
+
+  const onChangeHandler = useCallback(() => {
+    isChanged ? setIsChanged(false) : setIsChanged(true);
+  }, [isChanged]);
 
   useEffect(() => {
     fetch(`${REACT_APP_BACKEND_URL}/${id}`, {
@@ -35,7 +46,12 @@ const Poll = () => {
         setPollName(res.name);
         setPollChoices(res.choices);
       });
-  }, [id]);
+  }, [id, onChangeHandler]);
+
+  const ContextPackage = {
+    id: id,
+    onChange: onChangeHandler,
+  };
 
   return (
     <motion.div
@@ -54,13 +70,17 @@ const Poll = () => {
           </div>
         ) : (
           <Fragment>
-            <div>
+            <div className={styles.PollInfoContainer}>
               <div className={styles.PollQuestion}>{pollQuestion}</div>
               <div className={styles.PollNameText}>
-                Asked by <span className={styles.Italics}>{pollName}</span>
+                {pollName && (
+                  <Fragment>
+                    Asked by <span className={styles.Italics}>{pollName}</span>
+                  </Fragment>
+                )}
               </div>
             </div>
-            <PollContext.Provider value={id}>
+            <PollContext.Provider value={ContextPackage}>
               <ChoicesList pollChoices={pollChoices} />
             </PollContext.Provider>
           </Fragment>

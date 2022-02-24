@@ -6,7 +6,13 @@
 
 .TopContainer {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
+  word-wrap: break-word;
+}
+
+.NameContainer {
+  word-break: break-all;
 }
 
 .BotContainer {

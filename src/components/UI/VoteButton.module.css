@@ -1,0 +1,34 @@
+.VoteButton {
+  background-color: transparent;
+  border-style: solid;
+  border-radius: 8px;
+  border-color: rgb(255, 68, 11);
+  color: rgb(255, 68, 11);
+  font-size: 1.5rem;
+  width: 3rem;
+  min-width: 3rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.25 ease;
+  align-self: flex-start;
+}
+
+.VoteButton:hover {
+  border-color: rgb(173, 60, 26);
+  color: rgb(173, 60, 26);
+  transition: all 0.25 ease;
+}
+
+.VoteButton:active {
+    border-color: rgb(145, 47, 17);
+    color: rgb(145, 47, 17);
+}
+
+@media (min-width: 768px) {
+  .VoteButton {
+    width: 5rem;
+    min-width: 5rem;
+  }
+}
