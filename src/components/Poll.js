@@ -11,6 +11,7 @@ import styles from "./Poll.module.css";
 import Card from "./UI/Card";
 import Navbar from "./UI/Navbar";
 import ChoicesList from "./ChoicesList";
+import NewChoice from "./UI/NewChoice";
 
 const { REACT_APP_BACKEND_URL } = process.env;
 
@@ -82,6 +83,7 @@ const Poll = () => {
             </div>
             <PollContext.Provider value={ContextPackage}>
               <ChoicesList pollChoices={pollChoices} />
+              <NewChoice />
             </PollContext.Provider>
           </Fragment>
         )}

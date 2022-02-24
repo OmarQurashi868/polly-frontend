@@ -13,6 +13,7 @@
   align-items: center;
   transition: all 0.25 ease;
   align-self: flex-start;
+  margin-left: 1rem;
 }
 
 .VoteButton:hover {

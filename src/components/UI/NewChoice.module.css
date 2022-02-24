@@ -1,0 +1,59 @@
+.NewChoiceButton {
+  background-color: transparent;
+  border-style: solid;
+  border-radius: 8px;
+  border-color: rgb(255, 68, 11);
+  color: rgb(255, 68, 11);
+  font-size: 1.5rem;
+  width: 100%;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.25 ease;
+  align-self: flex-start;
+  transition: all 0.25 ease;
+}
+
+.NewChoiceButton:hover {
+  border-color: rgb(173, 60, 26);
+  color: rgb(173, 60, 26);
+  transition: all 0.25 ease;
+}
+
+.NewChoiceButton:active {
+  border-color: rgb(145, 47, 17);
+  color: rgb(145, 47, 17);
+}
+
+Input {
+  height: 2rem;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: rgb(66, 66, 66);
+  color: white;
+  border-radius: 4px;
+  border: none;
+  padding: 0 0.5rem 0 0.5rem;
+}
+
+.Error {
+  color: rgb(235, 66, 66);
+  font-weight: bold;
+  font-size: 1rem;
+  font-style: italic;
+  transition: all 0.25 ease;
+  text-align: left;
+}
+
+.TextContainer {
+  text-align: left;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.ButtonContainer {
+  display: flex;
+  gap: 1rem;
+}
