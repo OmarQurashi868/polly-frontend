@@ -1,4 +1,4 @@
-import { useEffect, useState, Fragment } from "react";
+import { useEffect, useState, Fragment, createContext } from "react";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import styles from "./Poll.module.css";
@@ -7,6 +7,8 @@ import Navbar from "./UI/Navbar";
 import ChoicesList from "./ChoicesList";
 
 const { REACT_APP_BACKEND_URL } = process.env;
+
+export const PollContext = createContext();
 
 const Poll = () => {
   const { id } = useParams();
@@ -58,7 +60,9 @@ const Poll = () => {
                 Asked by <span className={styles.Italics}>{pollName}</span>
               </div>
             </div>
-            <ChoicesList pollChoices={pollChoices} />
+            <PollContext.Provider value={id}>
+              <ChoicesList pollChoices={pollChoices} />
+            </PollContext.Provider>
           </Fragment>
         )}
       </Card>
