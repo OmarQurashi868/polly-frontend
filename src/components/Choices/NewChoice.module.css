@@ -27,7 +27,7 @@
   color: rgb(145, 47, 17);
 }
 
-Input {
+.NewInput {
   height: 2rem;
   font-size: 1rem;
   width: 100%;

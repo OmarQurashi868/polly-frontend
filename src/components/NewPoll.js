@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import styles from "./NewPoll.module.css";
@@ -10,7 +10,6 @@ const { REACT_APP_BACKEND_URL } = process.env;
 
 const NewPoll = () => {
   let navigate = useNavigate();
-  const questionRef = useRef();
   const [choices, setChoices] = useState([
     {
       key: 0,
@@ -19,7 +18,6 @@ const NewPoll = () => {
     },
   ]);
   const [choiceExists, setChoiceExists] = useState(false);
-
   const [errorState, setErrorState] = useState([]);
   const questionError = {
     code: 1,
@@ -34,8 +32,8 @@ const NewPoll = () => {
 
   const onFormSubmit = (event) => {
     event.preventDefault();
-    if (questionRef.current.value.length < 3 || !choiceExists) {
-      if (questionRef.current.value.length < 3) {
+    if (event.target.question.value.length < 3 || !choiceExists) {
+      if (event.target.question.value.length < 3) {
         setErrorState((prevErrors) => {
           let questionErrAlreadyExists = false;
           prevErrors.forEach((e) => {
@@ -78,13 +76,24 @@ const NewPoll = () => {
         }
       }
 
-      const pollData = {
+      let pollData = {
         pollData: {
-          question: questionRef.current.value,
+          question: event.target.question.value,
           name: event.target.name.value,
           choices: choicesData,
         },
       };
+
+      const canAddChoicesOjb = document.getElementById("canAddChoices");
+      if (canAddChoicesOjb) {
+        pollData.pollData.canAddChoices = canAddChoicesOjb.checked;
+      }
+      const canMultipleVoteOjb = document.getElementById("canMultipleVote");
+      if (canMultipleVoteOjb) {
+       pollData.pollData.canMultipleVote = canMultipleVoteOjb.checked;
+      }
+
+      console.log(pollData);
 
       fetch(REACT_APP_BACKEND_URL, {
         method: "POST",
@@ -166,7 +175,7 @@ const NewPoll = () => {
     >
       <Navbar />
       <Card>
-        <form className={styles.Form} onSubmit={onFormSubmit}>
+        <form className={styles.Form} onSubmit={onFormSubmit} id="pollForm">
           {errorState &&
             errorState.map((e) => {
               return (
@@ -182,14 +191,14 @@ const NewPoll = () => {
                 </motion.div>
               );
             })}
-
+          <div className={styles.FormHeader}>New poll</div>
           <div className={styles.Container}>
             <label>Question:</label>
             <input
               id="question"
+              name="question"
               type="text"
               placeholder="What do you want to ask?"
-              ref={questionRef}
               autoComplete="off"
               onChange={questionChangeHandler}
             />
@@ -220,13 +229,28 @@ const NewPoll = () => {
               );
             })}
           </div>
-
           <Button type="submit" className={styles.Button}>
             Create
           </Button>
         </form>
       </Card>
-      <Card>Options</Card>
+      <Card>
+        <div className={styles.OptionsForm} id="optionsForm">
+          <div className={styles.FormHeader}>Options</div>
+          <div className={styles.OptionContainer}>
+            <input type="checkbox" id="canAddChoices" name="canAddChoices" />
+            Users can add new choices
+          </div>
+          <div className={styles.OptionContainer}>
+            <input
+              type="checkbox"
+              id="canMultipleVote"
+              name="canMultipleVote"
+            />
+            Users can vote on multiple choices
+          </div>
+        </div>
+      </Card>
     </motion.div>
   );
 };

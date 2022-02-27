@@ -61,7 +61,6 @@ const Choice = (props) => {
 
   if (props.voteCount === 0) {
     gapValue = "0";
-    console.log("removed gap");
   }
 
   let voteBarFill;

@@ -82,7 +82,7 @@ const NewChoice = () => {
             placeholder="New Choice"
             ref={choiceRef}
             autoComplete="off"
-            className={styles.Input}
+            className={styles.NewInput}
             autoFocus
           />
           <div className={styles.ButtonContainer}>

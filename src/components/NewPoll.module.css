@@ -21,7 +21,7 @@
 }
 
 .Form input {
-  height: 2rem;
+  height: 2.5rem;
   font-size: 1rem;
   width: 100%;
   box-sizing: border-box;
@@ -30,6 +30,11 @@
   border-radius: 4px;
   border: none;
   padding: 0 0.5rem 0 0.5rem;
+}
+
+.FormHeader {
+  text-align: center;
+  font-weight: bold;
 }
 
 Button {
@@ -64,5 +69,41 @@ Button {
   Button {
     width: 25%;
     align-self: flex-end;
+  }
+}
+
+.OptionsForm {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.OptionsForm input {
+  height: 30px;
+  width: 30px;
+}
+
+.OptionContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 1.2rem;
+  text-align: left;
+}
+
+@media (min-width: 768px) {
+  .OptionsForm {
+    font-size: 1.5rem;
+  }
+  .OptionsForm input {
+    font-size: 1.5rem;
+    height: 20px;
+    width: 20px;
+  }
+  .OptionContainer {
+    font-size: 1.5rem;
   }
 }
