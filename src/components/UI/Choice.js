@@ -21,6 +21,36 @@ const Choice = (props) => {
         return res.json();
       })
       .then((res) => {
+        // STORE LOCAL STORAGE
+        const prevDataObject = JSON.parse(localStorage.getItem(ctx.id));
+        const dataObject = { ...prevDataObject };
+        dataObject[props.choiceId] = true;
+        localStorage.setItem(ctx.id, JSON.stringify(dataObject));
+
+        ctx.onChange();
+      });
+  };
+
+  const onUnVoteHandler = () => {
+    fetch(`${REACT_APP_BACKEND_URL}/unvote/${ctx.id}/${props.choiceId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.status !== 201) {
+          alert(`Unvoting failed with error code ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((res) => {
+        // STORE LOCAL STORAGE
+        const prevDataObject = JSON.parse(localStorage.getItem(ctx.id));
+        const dataObject = { ...prevDataObject };
+        dataObject[props.choiceId] = false;
+        localStorage.setItem(ctx.id, JSON.stringify(dataObject));
+
         ctx.onChange();
       });
   };
@@ -29,7 +59,12 @@ const Choice = (props) => {
     <li className={styles.ListItem}>
       <div className={styles.TopContainer}>
         <div className={styles.NameContainer}>{props.choiceName}</div>
-          <VoteButton onVote={onVoteHandler} />
+        <VoteButton
+          onVote={onVoteHandler}
+          onUnVote={onUnVoteHandler}
+          pollId={ctx.id}
+          choiceId={props.choiceId}
+        />
       </div>
       <div className={styles.BotContainer}>{props.voteCount}</div>
     </li>
