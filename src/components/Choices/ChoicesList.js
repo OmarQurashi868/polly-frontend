@@ -1,5 +1,5 @@
 import styles from "./ChoicesList.module.css";
-import Choice from "./UI/Choice";
+import Choice from "./Choice";
 
 const ChoicesList = (props) => {
   let highestVote = 0;

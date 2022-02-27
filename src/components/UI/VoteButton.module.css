@@ -64,3 +64,10 @@
   border-color: rgb(145, 47, 17);
   background-color: rgb(145, 47, 17);
 }
+
+@media (min-width: 768px) {
+  .UnVoteButton {
+    width: 5rem;
+    min-width: 5rem;
+  }
+}

@@ -10,8 +10,8 @@ import { motion } from "framer-motion";
 import styles from "./Poll.module.css";
 import Card from "./UI/Card";
 import Navbar from "./UI/Navbar";
-import ChoicesList from "./ChoicesList";
-import NewChoice from "./UI/NewChoice";
+import ChoicesList from "./Choices/ChoicesList";
+import NewChoice from "./Choices/NewChoice";
 
 const { REACT_APP_BACKEND_URL } = process.env;
 

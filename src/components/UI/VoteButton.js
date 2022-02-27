@@ -9,7 +9,7 @@ const VoteButton = (props) => {
   useEffect(() => {
     if (JSON.parse(localStorage.getItem(props.pollId)) != null) {
       if (
-        JSON.parse(localStorage.getItem(props.pollId))[props.choiceId] == true
+        JSON.parse(localStorage.getItem(props.pollId))[props.choiceId] === true
       ) {
         setVoteState(true);
       } else {

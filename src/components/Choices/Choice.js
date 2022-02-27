@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import styles from "./Choice.module.css";
-import VoteButton from "./VoteButton";
+import VoteButton from "../UI/VoteButton";
 import { PollContext } from "../Poll";
 
 const { REACT_APP_BACKEND_URL } = process.env;
