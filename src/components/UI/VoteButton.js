@@ -4,8 +4,7 @@ import styles from "./VoteButton.module.css";
 const VoteButton = (props) => {
   const [voteState, setVoteState] = useState(false);
 
-  // ALREADY VOTED CHECK
-
+  // Check if client already voted on this choice
   useEffect(() => {
     if (JSON.parse(localStorage.getItem(props.pollId)) != null) {
       if (

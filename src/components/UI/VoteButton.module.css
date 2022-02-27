@@ -11,7 +11,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 0.25 ease;
+  transition: all 0.25s ease;
   align-self: flex-start;
   margin-left: 1rem;
 }
@@ -19,7 +19,7 @@
 .VoteButton:hover {
   border-color: rgb(255, 98, 51);
   color: rgb(255, 98, 51);
-  transition: all 0.25 ease;
+  transition: all 0.25s ease;
   cursor: pointer;
 }
 
@@ -36,10 +36,10 @@
 }
 
 .UnVoteButton {
-  background-color: rgb(255, 68, 11);
+  background-color: rgb(233, 89, 32);
   border-style: solid;
   border-radius: 8px;
-  border-color: rgb(255, 68, 11);
+  border-color: rgb(233, 89, 32);
   color: black;
   font-size: 1.5rem;
   width: 3rem;
@@ -48,7 +48,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 0.25 ease;
+  transition: all 0.25s ease;
   align-self: flex-start;
   margin-left: 1rem;
 }
@@ -56,7 +56,7 @@
 .UnVoteButton:hover {
   border-color: rgb(255, 98, 51);
   background-color: rgb(255, 98, 51);
-  transition: all 0.25 ease;
+  transition: all 0.25s ease;
   cursor: pointer;
 }
 

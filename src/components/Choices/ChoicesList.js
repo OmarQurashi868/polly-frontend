@@ -2,10 +2,8 @@ import styles from "./ChoicesList.module.css";
 import Choice from "./Choice";
 
 const ChoicesList = (props) => {
-  let highestVote = 0;
-  props.pollChoices.forEach((e) => {
-    if (e.voteCount > highestVote) highestVote = e.voteCount;
-  });
+  const voteValues = props.pollChoices.map((e) => e.voteCount);
+  const highestVote = Math.max(...voteValues);
 
   return (
     <ul className={styles.ChoicesContainer}>
