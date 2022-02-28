@@ -8,6 +8,7 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    transition: all 0.25s ease;
 }
 
 @media (min-width: 768px) {

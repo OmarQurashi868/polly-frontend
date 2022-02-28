@@ -90,7 +90,7 @@ const NewPoll = () => {
       }
       const canMultipleVoteOjb = document.getElementById("canMultipleVote");
       if (canMultipleVoteOjb) {
-       pollData.pollData.canMultipleVote = canMultipleVoteOjb.checked;
+        pollData.pollData.canMultipleVote = canMultipleVoteOjb.checked;
       }
 
       console.log(pollData);
@@ -217,15 +217,23 @@ const NewPoll = () => {
             Choices:
             {choices.map((e) => {
               return (
-                <input
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.25 }}
                   key={e.key}
-                  id={e.id}
-                  name={e.choiceName}
-                  type="text"
-                  autoComplete="off"
-                  placeholder="Choice"
-                  onChange={choiceChangeHandler}
-                />
+                >
+                  <input
+                    key={e.key}
+                    id={e.id}
+                    name={e.choiceName}
+                    type="text"
+                    autoComplete="off"
+                    placeholder="Choice"
+                    onChange={choiceChangeHandler}
+                  />
+                </motion.div>
               );
             })}
           </div>
