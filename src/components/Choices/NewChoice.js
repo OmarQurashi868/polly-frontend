@@ -15,6 +15,14 @@ const NewChoice = () => {
     setInputState(true);
   };
 
+  const inputChangeHandler = () => {
+    if (choiceRef.current.value.length > 0) {
+      if (errorState) {
+        setErrorState();
+      }
+    }
+  };
+
   useEffect(() => {
     if (document.getElementById("newChoice")) {
       document.getElementById("newChoice").scrollIntoView();
@@ -37,23 +45,51 @@ const NewChoice = () => {
         },
       };
 
-      fetch(`${REACT_APP_BACKEND_URL}/add/${ctx.id}`, {
-        method: "PATCH",
+      let alreadyExists = false;
+
+      fetch(`${REACT_APP_BACKEND_URL}/${ctx.id}`, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(NewChoiceData),
       })
         .then((res) => {
-          if (res.status !== 201) {
-            alert(`Voting failed with error code ${res.status}`);
+          if (res.status !== 200) {
+            setErrorState("Poll not found");
           }
           return res.json();
         })
         .then((res) => {
-          choiceRef.current.value = "";
-          setInputState(false);
-          ctx.onChange();
+          let choices = res.choices;
+          for (const choice of choices) {
+            if (choice.name === choiceRef.current.value) {
+              alreadyExists = true;
+              setErrorState("Choice already exists");
+            }
+          }
+        })
+        .then(() => {
+          if (!alreadyExists) {
+            fetch(`${REACT_APP_BACKEND_URL}/add/${ctx.id}`, {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(NewChoiceData),
+            })
+              .then((res) => {
+                if (res.status !== 201) {
+                  alert(`Voting failed with error code ${res.status}`);
+                }
+                return res.json();
+              })
+              .then((res) => {
+                choiceRef.current.value = "";
+                setInputState(false);
+                setErrorState();
+                ctx.onChange();
+              });
+          }
         });
     }
   };
@@ -66,7 +102,17 @@ const NewChoice = () => {
       transition={{ duration: 0.25 }}
       className={styles.MotionDiv}
     >
-      {errorState && <div className={styles.Error}>{errorState}</div>}
+      {errorState && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          className={styles.Error}
+        >
+          {errorState}
+        </motion.div>
+      )}
       {inputState && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -83,6 +129,7 @@ const NewChoice = () => {
             ref={choiceRef}
             autoComplete="off"
             className={styles.NewInput}
+            onChange={inputChangeHandler}
             autoFocus
           />
           <div className={styles.ButtonContainer}>
@@ -95,6 +142,7 @@ const NewChoice = () => {
             <button
               onClick={onAddChoiceHandler}
               className={styles.NewChoiceButton}
+              id="submitButton"
             >
               Submit
             </button>

@@ -19,10 +19,9 @@ export const PollContext = createContext();
 
 const Poll = () => {
   const { id } = useParams();
-  const [pollQuestion, setPollQuestion] = useState();
-  const [pollName, setPollName] = useState();
-  const [errorState, setErrorState] = useState();
   const [pollChoices, setPollChoices] = useState([]);
+  const [pollData, setPollData] = useState({});
+  const [errorState, setErrorState] = useState();
   const [isChanged, setIsChanged] = useState(false);
 
   const onChangeHandler = useCallback(() => {
@@ -43,8 +42,14 @@ const Poll = () => {
         return res.json();
       })
       .then((res) => {
-        setPollQuestion(res.question);
-        setPollName(res.name);
+        setPollData((prevData) => {
+          let newData = { ...prevData };
+          newData["question"] = res.question;
+          newData["name"] = res.name;
+          newData["canAddChoices"] = res.canAddChoices;
+          newData["canMultipleVote"] = res.canMultipleVote;
+          return newData;
+        });
         setPollChoices(res.choices);
       });
   }, [id, onChangeHandler]);
@@ -72,18 +77,19 @@ const Poll = () => {
         ) : (
           <Fragment>
             <div className={styles.PollInfoContainer}>
-              <div className={styles.PollQuestion}>{pollQuestion}</div>
+              <div className={styles.PollQuestion}>{pollData.question}</div>
               <div className={styles.PollNameText}>
-                {pollName && (
+                {pollData.name && (
                   <Fragment>
-                    Asked by <span className={styles.Italics}>{pollName}</span>
+                    Asked by{" "}
+                    <span className={styles.Italics}>{pollData.name}</span>
                   </Fragment>
                 )}
               </div>
             </div>
             <PollContext.Provider value={ContextPackage}>
               <ChoicesList pollChoices={pollChoices} />
-              <NewChoice />
+              {pollData.canAddChoices && <NewChoice />}
             </PollContext.Provider>
           </Fragment>
         )}
