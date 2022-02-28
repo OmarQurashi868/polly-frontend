@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "./VoteButton.module.css";
+import { motion } from "framer-motion";
 
 const VoteButton = (props) => {
   const [voteState, setVoteState] = useState(false);
@@ -29,19 +30,51 @@ const VoteButton = (props) => {
 
   let content;
 
-  if (!voteState) {
+  if (!props.isActive) {
+    content = null;
+  } else if (voteState) {
     content = (
-      <button onClick={voteHandler} className={styles.VoteButton}>
-        +
-      </button>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.25 }}
+        className={styles.MotionDiv}
+      >
+        <button onClick={unVoteHandler} className={styles.UnVoteButton}>
+          -
+        </button>
+      </motion.div>
     );
   } else {
     content = (
-      <button onClick={unVoteHandler} className={styles.UnVoteButton}>
-        -
-      </button>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.25 }}
+        className={styles.MotionDiv}
+      >
+        <button onClick={voteHandler} className={styles.VoteButton}>
+          +
+        </button>
+      </motion.div>
     );
   }
+
+  // if (!voteState) {
+  //   content = (
+  //     <button onClick={voteHandler} className={styles.VoteButton}>
+  //       +
+  //     </button>
+  //   );
+  // } else {
+  //   content = (
+  //     <button onClick={unVoteHandler} className={styles.UnVoteButton}>
+  //       -
+  //     </button>
+  //   );
+  // }
 
   return content;
 };

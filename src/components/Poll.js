@@ -21,6 +21,8 @@ const Poll = () => {
   const { id } = useParams();
   const [pollChoices, setPollChoices] = useState([]);
   const [pollData, setPollData] = useState({});
+  const [canAddChoices, setCanAddChoices] = useState();
+  const [canMultipleVote, setCanMultipleVote] = useState();
   const [errorState, setErrorState] = useState();
   const [isChanged, setIsChanged] = useState(false);
 
@@ -46,10 +48,10 @@ const Poll = () => {
           let newData = { ...prevData };
           newData["question"] = res.question;
           newData["name"] = res.name;
-          newData["canAddChoices"] = res.canAddChoices;
-          newData["canMultipleVote"] = res.canMultipleVote;
           return newData;
         });
+        setCanAddChoices(res.canAddChoices);
+        setCanMultipleVote(res.canMultipleVote);
         setPollChoices(res.choices);
       });
   }, [id, onChangeHandler]);
@@ -88,8 +90,8 @@ const Poll = () => {
               </div>
             </div>
             <PollContext.Provider value={ContextPackage}>
-              <ChoicesList pollChoices={pollChoices} />
-              {pollData.canAddChoices && <NewChoice />}
+              <ChoicesList pollChoices={pollChoices} canMultipleVote={canMultipleVote} />
+              {canAddChoices && <NewChoice />}
             </PollContext.Provider>
           </Fragment>
         )}

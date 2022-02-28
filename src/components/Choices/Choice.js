@@ -59,6 +59,18 @@ const Choice = (props) => {
       });
   };
 
+  let isActive;
+
+  if (props.canMultipleVote || !props.alreadyVoted) {
+    isActive = true;
+  } else {
+    if (props.choiceId === props.votedId) {
+      isActive = true;
+    } else {
+      isActive = false;
+    }
+  }
+
   if (props.voteCount === 0) {
     gapValue = "0";
   }
@@ -79,6 +91,7 @@ const Choice = (props) => {
           onUnVote={onUnVoteHandler}
           pollId={ctx.id}
           choiceId={props.choiceId}
+          isActive={isActive}
         />
       </div>
       <div className={styles.BotContainer} style={{ gap: gapValue }}>
