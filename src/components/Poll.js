@@ -12,6 +12,7 @@ import Card from "./UI/Card";
 import Navbar from "./UI/Navbar";
 import ChoicesList from "./Choices/ChoicesList";
 import NewChoice from "./Choices/NewChoice";
+import Timer from "./Utils/Timer";
 
 const { REACT_APP_BACKEND_URL } = process.env;
 
@@ -19,16 +20,17 @@ export const PollContext = createContext();
 
 const Poll = () => {
   const { id } = useParams();
-  const [pollChoices, setPollChoices] = useState([]);
-  const [pollData, setPollData] = useState({});
-  const [canAddChoices, setCanAddChoices] = useState(false);
-  const [canMultipleVote, setCanMultipleVote] = useState(false);
-  const [isStarted, setIsStarted] = useState(true);
-  const [isEnded, setIsEnded] = useState(false);
-  const [startDate, setStartDate] = useState(Date.now());
-  const [endDate, setEndDate] = useState();
-  const [isActive, setIsActive] = useState(true);
-
+  const [pollData, setPollData] = useState({
+    question: "question",
+    name: "name",
+    canAddChoices: false,
+    canMultipleVote: false,
+    isStarted: true,
+    isEnded: false,
+    startDate: new Date(),
+    isActive: true,
+    choices: [],
+  });
   const [errorState, setErrorState] = useState(null);
   const [isChanged, setIsChanged] = useState(false);
 
@@ -52,94 +54,33 @@ const Poll = () => {
       .then((res) => {
         setPollData((prevData) => {
           let newData = { ...prevData };
-          newData["question"] = res.question;
-          newData["name"] = res.name;
+          newData.question = res.question;
+          newData.name = res.name;
+          newData.canAddChoices = res.canAddChoices;
+          newData.canMultipleVote = res.canMultipleVote;
+          newData.isStarted = res.isStarted;
+          newData.isEnded = res.isEnded;
+          newData.startDate = new Date(res.startDate);
+          if (res.endDate) newData.endDate = new Date(res.endDate);
+          newData.isActive = res.isStarted && !res.isEnded;
+          newData.choices = res.choices;
           return newData;
         });
-        setStartDate(new Date(res.startDate));
-        if (res.endDate) setEndDate(new Date(res.endDate));
-        setIsStarted(res.isStarted);
-        setIsEnded(res.isEnded);
-        setIsActive(res.isStarted && !res.isEnded);
-        setCanAddChoices(res.canAddChoices);
-        setCanMultipleVote(res.canMultipleVote);
-        setPollChoices(res.choices);
       });
   }, [id, onChangeHandler]);
 
   const ContextPackage = {
     id: id,
     onChange: onChangeHandler,
-    isActive: isActive,
+    isActive: pollData.isActive,
   };
 
-  let headerContent;
-  let timer;
-
-  const timeConvert = (msTime) => {
-    let seconds = Math.floor(msTime / 1000);
-    let minutes = Math.floor(seconds / 60);
-    let hours = Math.floor(minutes / 60);
-    let days = Math.floor(hours / 24);
-    seconds = seconds % 60;
-    minutes = minutes % 60;
-    hours = hours % 24;
-
-    let dayPhrase = "";
-    let hourPhrase = "";
-    let minutePhrase = "";
-
-    if (days > 0) {
-      if (days === 1) {
-        dayPhrase = `${days} day and `;
-      } else {
-        dayPhrase = `${days} days and `;
-      }
-    }
-    if (hours > 0 && days > 0) {
-      hourPhrase = `${hours} `;
-    } else if (hours > 0 && days <= 0) {
-      hourPhrase = `${hours}:`;
-      if (minutes < 10) {
-        minutePhrase = `0${minutes} `;
-      } else {
-        minutePhrase = `${minutes} `;
-      }
-    } else {
-      if (minutes < 10) {
-        minutePhrase = `0${minutes} `;
-      } else {
-        minutePhrase = `${minutes} `;
-      }
-    }
-
-    let endPhrase = "";
-
-    if (hours > 0) {
-      if (hours === 1 && minutes === 0) {
-        endPhrase = `hour`;
-      } else {
-        endPhrase = `hours`;
-      }
-    } else if (minutes > 0) {
-      endPhrase = `minutes`;
-    }
-
-    return `${dayPhrase}${hourPhrase}${minutePhrase}${endPhrase}`;
-  };
-
-  if (!isStarted) {
-    headerContent = `This poll starts at ${startDate.toLocaleTimeString()}, ${startDate.toLocaleDateString()}`;
-    timer = `${timeConvert(startDate - Date.now()).toLocaleString()} remaining`;
-  } else if (endDate) {
-    if (!isEnded) {
-      headerContent = `This poll ends at  ${endDate.toLocaleTimeString()}, ${endDate.toLocaleDateString()}`;
-      timer = `${timeConvert(endDate - Date.now())} remaining`;
-    } else {
-      headerContent = `This poll ended at  ${endDate.toLocaleTimeString()}, ${endDate.toLocaleDateString()}`;
-      timer = `${timeConvert(Date.now() - endDate)} ago`;
-    }
+  let timerData = {
+    isStarted: pollData.isStarted,
+    isEnded: pollData.isEnded,
+    startDate: pollData.startDate,
   }
+  if (pollData.endDate) timerData.endDate = pollData.endDate;
 
   return (
     <motion.div
@@ -153,8 +94,6 @@ const Poll = () => {
       {!errorState && (
         <Card>
           <div>Sharing here</div>
-          <div>{headerContent}</div>
-          <div className={styles.TimerContainer}>{timer}</div>
         </Card>
       )}
       <Card className={styles.Container}>
@@ -166,6 +105,7 @@ const Poll = () => {
         ) : (
           <Fragment>
             <div className={styles.PollInfoContainer}>
+            <Timer timerData={timerData}/>
               <div className={styles.PollQuestion}>{pollData.question}</div>
               <div className={styles.PollNameText}>
                 {pollData.name && (
@@ -178,10 +118,10 @@ const Poll = () => {
             </div>
             <PollContext.Provider value={ContextPackage}>
               <ChoicesList
-                pollChoices={pollChoices}
-                canMultipleVote={canMultipleVote}
+                pollChoices={pollData.choices}
+                canMultipleVote={pollData.canMultipleVote}
               />
-              {canAddChoices && isActive && <NewChoice />}
+              {pollData.canAddChoices && pollData.isActive && <NewChoice />}
             </PollContext.Provider>
           </Fragment>
         )}
