@@ -79,7 +79,7 @@ const NewChoice = () => {
             })
               .then((res) => {
                 if (res.status !== 201) {
-                  alert(`Voting failed with error code ${res.status}`);
+                  alert(`Operation failed with error code ${res.status}`);
                 }
                 return res.json();
               })

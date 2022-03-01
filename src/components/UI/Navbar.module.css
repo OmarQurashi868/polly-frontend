@@ -9,6 +9,7 @@
   background-color: rgb(42, 41, 46);
   width: 100%;
   box-shadow: 1px 1px 6px 0px black;
+  z-index: 1000;
 }
 
 .Link {

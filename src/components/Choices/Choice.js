@@ -18,7 +18,7 @@ const Choice = (props) => {
     })
       .then((res) => {
         if (res.status !== 201) {
-          alert(`Voting failed with error code ${res.status}`);
+          alert(`Operation failed with error code ${res.status}`);
         }
         return res.json();
       })
@@ -44,7 +44,7 @@ const Choice = (props) => {
     })
       .then((res) => {
         if (res.status !== 201) {
-          alert(`Unvoting failed with error code ${res.status}`);
+          alert(`Operation failed with error code ${res.status}`);
         }
         return res.json();
       })
@@ -61,13 +61,17 @@ const Choice = (props) => {
 
   let isActive;
 
-  if (props.canMultipleVote || !props.alreadyVoted) {
-    isActive = true;
+  if (!ctx.isActive) {
+    isActive = false;
   } else {
-    if (props.choiceId === props.votedId) {
+    if (props.canMultipleVote || !props.alreadyVoted) {
       isActive = true;
     } else {
-      isActive = false;
+      if (props.choiceId === props.votedId) {
+        isActive = true;
+      } else {
+        isActive = false;
+      }
     }
   }
 

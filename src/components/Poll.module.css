@@ -43,3 +43,9 @@
   border-bottom: 1px solid rgb(211, 211, 211);
   max-width: 100%;
 }
+
+.TimerContainer {
+  font-style: italic;
+  color: gray;
+  font-size: 1rem;
+}

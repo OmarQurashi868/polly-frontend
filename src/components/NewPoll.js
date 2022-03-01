@@ -93,7 +93,14 @@ const NewPoll = () => {
         pollData.pollData.canMultipleVote = canMultipleVoteOjb.checked;
       }
 
-      console.log(pollData);
+      const startAtObj = document.getElementById("startAt");
+      if (startAtObj && startAtObj.checked) {
+        pollData.pollData.startDate = document.getElementById("startDate").value;
+      }
+      const endAtObj = document.getElementById("endAt");
+      if (endAtObj && endAtObj.checked) {
+        pollData.pollData.endDate = document.getElementById("endDate").value;
+      }
 
       fetch(REACT_APP_BACKEND_URL, {
         method: "POST",
@@ -246,7 +253,12 @@ const NewPoll = () => {
         <div className={styles.OptionsForm} id="optionsForm">
           <div className={styles.FormHeader}>Options</div>
           <div className={styles.OptionContainer}>
-            <input type="checkbox" id="canAddChoices" name="canAddChoices" />
+            <input
+              type="checkbox"
+              id="canAddChoices"
+              name="canAddChoices"
+              className={styles.CheckBox}
+            />
             Users can add new choices
           </div>
           <div className={styles.OptionContainer}>
@@ -254,8 +266,29 @@ const NewPoll = () => {
               type="checkbox"
               id="canMultipleVote"
               name="canMultipleVote"
+              className={styles.CheckBox}
             />
             Users can vote on multiple choices
+          </div>
+          <div className={styles.OptionContainer}>
+            <input
+              type="checkbox"
+              id="startAt"
+              name="startAt"
+              className={styles.CheckBox}
+            />
+            Start at
+            <input type="datetime-local" id="startDate" name="startDate" />
+          </div>
+          <div className={styles.OptionContainer}>
+            <input
+              type="checkbox"
+              id="endAt"
+              name="endAt"
+              className={styles.CheckBox}
+            />
+            End at
+            <input type="datetime-local" id="endDate" name="endDate" />
           </div>
         </div>
       </Card>

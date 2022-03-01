@@ -63,7 +63,7 @@ Button {
   .Form input {
     height: 2.5rem;
     font-size: 1.5rem;
-    padding: 0 1rem 0 1rem;
+    padding: 0 0.5rem 0 0.5rem;
   }
 
   Button {
@@ -80,7 +80,7 @@ Button {
   font-size: 1.5rem;
 }
 
-.OptionsForm input {
+.CheckBox {
   height: 30px;
   width: 30px;
 }
@@ -98,7 +98,7 @@ Button {
   .OptionsForm {
     font-size: 1.5rem;
   }
-  .OptionsForm input {
+  .CheckBox {
     font-size: 1.5rem;
     height: 20px;
     width: 20px;
