@@ -20,6 +20,11 @@ const { REACT_APP_BACKEND_URL } = process.env;
 export const PollContext = createContext();
 
 const Poll = () => {
+  useEffect(() => {
+    setInterval(() => {
+      onChangeHandler();
+    }, 5000)
+  }, []);
   const { id } = useParams();
   const [pollData, setPollData] = useState({
     question: "question",
