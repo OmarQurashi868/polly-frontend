@@ -214,7 +214,6 @@ const NewPoll = () => {
         })
         .then((res) => {
           if (statusCode === 201) {
-            console.log("Poll added successfully...");
             navigate(`/poll/${res._id}`);
           } else {
             console.log(res);

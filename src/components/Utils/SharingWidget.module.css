@@ -1,0 +1,42 @@
+.SharingWidget {
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.Button {
+    font-size: 1rem !important;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem !important;
+    width: 75%;
+    align-self: center;
+}
+
+.Container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+}
+
+.Container input {
+    text-align: center;
+    width: 75%;
+}
+
+@media (min-width: 768px) {
+    .Container {
+        flex-direction: row;
+    }
+    .Container input {
+        width: 40%;
+    }
+    .Button {
+        width: 25%;
+    }
+}

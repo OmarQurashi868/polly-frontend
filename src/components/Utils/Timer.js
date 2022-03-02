@@ -47,7 +47,7 @@ const Timer = (props) => {
     let endPhrase = "";
 
     if (hours > 0) {
-      if (hours === 1 && minutes === 0) {
+      if (hours === 1) {
         endPhrase = `hour`;
       } else {
         endPhrase = `hours`;
