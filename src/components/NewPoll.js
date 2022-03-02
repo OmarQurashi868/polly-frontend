@@ -18,53 +18,152 @@ const NewPoll = () => {
     },
   ]);
   const [choiceExists, setChoiceExists] = useState(false);
-  const [errorState, setErrorState] = useState([]);
-  const questionError = {
-    code: 1,
-    message: "Question must be 3 characters or more",
-  };
-  const choiceError = {
-    code: 2,
-    message: "You need at least one choice",
-  };
+
+  const [questionError, setQuestionError] = useState([]);
+  const questionErrors = [
+    {
+      code: 1,
+      message: "Question must be 3 characters or more",
+    },
+    {
+      code: 2,
+      message: "You need at least one choice",
+    },
+  ];
+
+  const [dateError, setDateError] = useState([]);
+  const dateErrors = [
+    {
+      code: 1,
+      message: "Dates cannot be left empty for selected properties",
+    },
+    {
+      code: 2,
+      message: "Dates cannot be set to before the current time",
+    },
+    {
+      code: 3,
+      message: "End date cannot be before start date",
+    },
+  ];
 
   let statusCode;
 
+  const addQuestionError = (errCode) => {
+    setQuestionError((prevErrors) => {
+      let questionErrAlreadyExists = false;
+
+      prevErrors.forEach((e) => {
+        if (e.code === errCode) {
+          questionErrAlreadyExists = true;
+        }
+      });
+
+      let updatedErrors = [...prevErrors];
+      let errorObj = {};
+      if (!questionErrAlreadyExists) {
+        for (const error of questionErrors) {
+          if (error.code === errCode) {
+            errorObj = error;
+          }
+        }
+        if (errorObj) updatedErrors.push(errorObj);
+      }
+
+      return updatedErrors;
+    });
+  };
+
+  const addOptionError = (errCode) => {
+    setDateError((prevErrors) => {
+      let dateErrAlreadyExists = false;
+
+      prevErrors.forEach((e) => {
+        if (e.code === errCode) {
+          dateErrAlreadyExists = true;
+        }
+      });
+
+      let updatedErrors = [...prevErrors];
+      let errorObj = {};
+      if (!dateErrAlreadyExists) {
+        for (const error of dateErrors) {
+          if (error.code === errCode) {
+            errorObj = error;
+          }
+        }
+        if (errorObj) updatedErrors.push(errorObj);
+      }
+
+      return updatedErrors;
+    });
+  };
+
   const onFormSubmit = (event) => {
     event.preventDefault();
+    const startAtObj = document.getElementById("startAt");
+    const endAtObj = document.getElementById("endAt");
+    let passedErrorCheck = true;
+
+    // Check question and choice
     if (event.target.question.value.length < 3 || !choiceExists) {
+      passedErrorCheck = false;
       if (event.target.question.value.length < 3) {
-        setErrorState((prevErrors) => {
-          let questionErrAlreadyExists = false;
-          prevErrors.forEach((e) => {
-            if (e.code === 1) {
-              questionErrAlreadyExists = true;
-            }
-          });
-          let updatedErrors = [...prevErrors];
-          if (!questionErrAlreadyExists) {
-            updatedErrors.push(questionError);
-          }
-          return updatedErrors;
-        });
+        addQuestionError(1);
       }
       if (!choiceExists) {
-        setErrorState((prevErrors) => {
-          let choiceErrAlreadyExists = false;
-          prevErrors.forEach((e) => {
-            if (e.code === 2) {
-              choiceErrAlreadyExists = true;
-            }
-          });
-          let updatedErrors = [...prevErrors];
-          if (!choiceErrAlreadyExists) {
-            updatedErrors.push(choiceError);
-          }
-          return updatedErrors;
-        });
+        addQuestionError(2);
       }
-    } else {
-      setErrorState();
+    }
+
+    // Check start date
+    if (startAtObj && startAtObj.checked) {
+      if (document.getElementById("startDate").value.length < 1) {
+        // setOptionError("Dates cannot be left empty for selected properties");
+        passedErrorCheck = false;
+        addOptionError(1);
+      } else if (
+        new Date(document.getElementById("startDate").value)
+          .toISOString()
+          .substring(0, 16) < new Date().toISOString().substring(0, 16)
+      ) {
+        // setOptionError("Dates cannot be set to before the current time");
+        passedErrorCheck = false;
+        addOptionError(2);
+      }
+    }
+
+    // Check end date
+    if (endAtObj && endAtObj.checked) {
+      if (document.getElementById("endDate").value.length < 1) {
+        // setOptionError("Dates cannot be left empty for selected properties");
+        passedErrorCheck = false;
+        addOptionError(1);
+      } else if (
+        new Date(document.getElementById("endDate").value)
+          .toISOString()
+          .substring(0, 16) < new Date().toISOString().substring(0, 16)
+      ) {
+        // setOptionError("Dates cannot be set to before the current time");
+        passedErrorCheck = false;
+        addOptionError(2);
+      } else if (
+        new Date(document.getElementById("endDate").value)
+          .toISOString()
+          .substring(0, 16) <
+        new Date(document.getElementById("startDate").value)
+          .toISOString()
+          .substring(0, 16)
+      ) {
+        // setOptionError("End date cannot be before start date");
+        passedErrorCheck = false;
+        addOptionError(3);
+      }
+    }
+
+    // Create poll
+    if (passedErrorCheck) {
+      setQuestionError([]);
 
       const choicesData = [];
 
@@ -93,11 +192,11 @@ const NewPoll = () => {
         pollData.pollData.canMultipleVote = canMultipleVoteOjb.checked;
       }
 
-      const startAtObj = document.getElementById("startAt");
       if (startAtObj && startAtObj.checked) {
-        pollData.pollData.startDate = document.getElementById("startDate").value;
+        pollData.pollData.startDate =
+          document.getElementById("startDate").value;
       }
-      const endAtObj = document.getElementById("endAt");
+
       if (endAtObj && endAtObj.checked) {
         pollData.pollData.endDate = document.getElementById("endDate").value;
       }
@@ -126,7 +225,7 @@ const NewPoll = () => {
 
   const questionChangeHandler = (event) => {
     if (event.target.value.length >= 3) {
-      setErrorState((prevErrors) => {
+      setQuestionError((prevErrors) => {
         let updatedErrors = [...prevErrors];
         for (let i = 0; i < prevErrors.length; i++) {
           if (prevErrors[i].code === 1) {
@@ -143,7 +242,7 @@ const NewPoll = () => {
       if (event.target.value.length > 0) {
         if (!choiceExists) {
           setChoiceExists(true);
-          setErrorState((prevErrors) => {
+          setQuestionError((prevErrors) => {
             let updatedErrors = [...prevErrors];
             for (let i = 0; i < prevErrors.length; i++) {
               if (prevErrors[i].code === 2) {
@@ -172,6 +271,10 @@ const NewPoll = () => {
     }
   };
 
+  const dateChangeHandler = () => {
+    setDateError([]);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -183,22 +286,24 @@ const NewPoll = () => {
       <Navbar />
       <Card>
         <form className={styles.Form} onSubmit={onFormSubmit} id="pollForm">
-          {errorState &&
-            errorState.map((e) => {
-              return (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.25 }}
-                  className={styles.Error}
-                  key={e.code}
-                >
-                  {e.message}
-                </motion.div>
-              );
-            })}
           <div className={styles.FormHeader}>New poll</div>
+          <div>
+            {questionError &&
+              questionError.map((e) => {
+                return (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                    className={styles.Error}
+                    key={e.code}
+                  >
+                    {e.message}
+                  </motion.div>
+                );
+              })}
+          </div>
           <div className={styles.Container}>
             <label>Question:</label>
             <input
@@ -252,6 +357,24 @@ const NewPoll = () => {
       <Card>
         <div className={styles.OptionsForm} id="optionsForm">
           <div className={styles.FormHeader}>Options</div>
+          {dateError && (
+            <div className={styles.Error}>
+              {dateError.map((e) => {
+                return (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.25 }}
+                    className={styles.Error}
+                    key={e.code}
+                  >
+                    {e.message}
+                  </motion.div>
+                );
+              })}
+            </div>
+          )}
           <div className={styles.OptionContainer}>
             <input
               type="checkbox"
@@ -278,7 +401,12 @@ const NewPoll = () => {
               className={styles.CheckBox}
             />
             Start at
-            <input type="datetime-local" id="startDate" name="startDate" />
+            <input
+              type="datetime-local"
+              id="startDate"
+              name="startDate"
+              onChange={dateChangeHandler}
+            />
           </div>
           <div className={styles.OptionContainer}>
             <input
@@ -288,7 +416,12 @@ const NewPoll = () => {
               className={styles.CheckBox}
             />
             End at
-            <input type="datetime-local" id="endDate" name="endDate" />
+            <input
+              type="datetime-local"
+              id="endDate"
+              name="endDate"
+              onChange={dateChangeHandler}
+            />
           </div>
         </div>
       </Card>

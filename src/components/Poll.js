@@ -13,6 +13,7 @@ import Navbar from "./UI/Navbar";
 import ChoicesList from "./Choices/ChoicesList";
 import NewChoice from "./Choices/NewChoice";
 import Timer from "./Utils/Timer";
+import SharingWidget from "./Utils/SharingWidget";
 
 const { REACT_APP_BACKEND_URL } = process.env;
 
@@ -79,8 +80,14 @@ const Poll = () => {
     isStarted: pollData.isStarted,
     isEnded: pollData.isEnded,
     startDate: pollData.startDate,
-  }
+  };
   if (pollData.endDate) timerData.endDate = pollData.endDate;
+
+  let isTimed = false;
+
+  if (!pollData.isStarted || pollData.endDate) {
+    isTimed = true;
+  }
 
   return (
     <motion.div
@@ -91,11 +98,7 @@ const Poll = () => {
       className={styles.MotionDiv}
     >
       <Navbar CreateButton />
-      {!errorState && (
-        <Card>
-          <div>Sharing here</div>
-        </Card>
-      )}
+      {!errorState && <SharingWidget pollId={id} />}
       <Card className={styles.Container}>
         {errorState ? (
           <div className={styles.ErrorText}>
@@ -105,7 +108,7 @@ const Poll = () => {
         ) : (
           <Fragment>
             <div className={styles.PollInfoContainer}>
-            <Timer timerData={timerData}/>
+              {isTimed && <Timer timerData={timerData} />}
               <div className={styles.PollQuestion}>{pollData.question}</div>
               <div className={styles.PollNameText}>
                 {pollData.name && (
