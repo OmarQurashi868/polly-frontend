@@ -1,8 +1,7 @@
 .Title {
   font-size: 5rem;
-  color: rgb(255, 68, 11);
+  color: #cbb028;
   font-weight: bold;
-  -webkit-text-stroke: 1px white;
   margin: 2rem;
 }
 
@@ -17,10 +16,10 @@
 
 .Link {
   text-decoration: none;
-  background-color: rgb(255, 68, 11);
+  background-color: #cbb028;
   margin: 2rem;
   font-weight: bold;
-  color: white;
+  color: black;
   border-radius: 8px;
   border: none;
   padding: 1rem;
@@ -30,12 +29,12 @@
 }
 
 .Link:hover {
-  background-color: rgb(255, 98, 51);
+  background-color: #e0c952;
   transition: all 0.25s ease;
 }
 
 .Link:active {
-  background-color: rgb(145, 47, 17);
+  background-color: #7d6f2b;
   transition: all 0.25s ease;
 }
 

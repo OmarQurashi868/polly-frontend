@@ -20,11 +20,6 @@ const { REACT_APP_BACKEND_URL } = process.env;
 export const PollContext = createContext();
 
 const Poll = () => {
-  useEffect(() => {
-    setInterval(() => {
-      onChangeHandler();
-    }, 5000)
-  }, []);
   const { id } = useParams();
   const [pollData, setPollData] = useState({
     question: "question",
@@ -43,6 +38,15 @@ const Poll = () => {
   const onChangeHandler = useCallback(() => {
     isChanged ? setIsChanged(false) : setIsChanged(true);
   }, [isChanged]);
+
+  useEffect(() => {
+    const refreshInterval = setInterval(() => {
+      onChangeHandler();
+    }, 5000);
+    return () => {
+      clearInterval(refreshInterval);
+    };
+  }, [onChangeHandler]);
 
   useEffect(() => {
     fetch(`${REACT_APP_BACKEND_URL}/${id}`, {

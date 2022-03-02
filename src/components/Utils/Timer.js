@@ -5,9 +5,12 @@ const Timer = (props) => {
   const [, reRender] = useState({});
 
   useEffect(() => {
-    setInterval(() => {
+    const timerInterval = setInterval(() => {
       reRender({});
     }, 15000)
+    return () => {
+      clearInterval(timerInterval);
+    };
   }, [])
 
   let headerContent;

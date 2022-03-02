@@ -32,7 +32,7 @@
 
 .VoteBar {
   border-radius: 10px;
-  background-color: rgb(233, 89, 32);
+  background-color: #CBB028;
   transition: all 0.3s ease;
   height: 50%;
 }

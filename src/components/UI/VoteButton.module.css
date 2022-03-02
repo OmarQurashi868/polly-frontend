@@ -2,8 +2,8 @@
   background-color: transparent;
   border-style: solid;
   border-radius: 8px;
-  border-color: rgb(255, 68, 11);
-  color: rgb(255, 68, 11);
+  border-color: #CBB028;
+  color: #CBB028;
   font-size: 1.5rem;
   width: 3rem;
   min-width: 3rem;
@@ -17,15 +17,15 @@
 }
 
 .VoteButton:hover {
-  border-color: rgb(255, 98, 51);
-  color: rgb(255, 98, 51);
+  border-color: #e0c952;
+  color: #e0c952;
   transition: all 0.25s ease;
   cursor: pointer;
 }
 
 .VoteButton:active {
-  border-color: rgb(145, 47, 17);
-  color: rgb(145, 47, 17);
+  border-color: #7D6F2B;
+  color: #7D6F2B;
 }
 
 @media (min-width: 768px) {
@@ -36,10 +36,10 @@
 }
 
 .UnVoteButton {
-  background-color: rgb(233, 89, 32);
+  background-color: #CBB028;
   border-style: solid;
   border-radius: 8px;
-  border-color: rgb(233, 89, 32);
+  border-color: #CBB028;
   color: black;
   font-size: 1.5rem;
   width: 3rem;
@@ -54,15 +54,15 @@
 }
 
 .UnVoteButton:hover {
-  border-color: rgb(255, 98, 51);
-  background-color: rgb(255, 98, 51);
+  border-color: #e0c952;
+  background-color: #e0c952;
   transition: all 0.25s ease;
   cursor: pointer;
 }
 
 .UnVoteButton:active {
-  border-color: rgb(145, 47, 17);
-  background-color: rgb(145, 47, 17);
+  border-color: #7D6F2B;
+  background-color: #7D6F2B;
 }
 
 @media (min-width: 768px) {

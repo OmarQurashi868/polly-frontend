@@ -9,7 +9,7 @@ const Navbar = (props) => {
       </Link>
       {props.CreateButton && (
         <Link to="/newpoll" className={styles.Button}>
-          NEW POLL
+          New poll
         </Link>
       )}
     </div>

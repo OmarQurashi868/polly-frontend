@@ -1,7 +1,7 @@
 .Button {
-    background-color: rgb(255, 68, 11);
+    background-color: #CBB028;
     font-weight: bold;
-    color: white;
+    color: black;
     border-radius: 8px;
     border: none;
     padding: 0.5rem;
@@ -11,12 +11,12 @@
 }
 
 .Button:hover {
-    background-color: rgb(173, 60, 26);
+    background-color: #e0c952;
     transition: all 0.25s ease;
     cursor: pointer;
 }
 
 .Button:active {
-    background-color: rgb(145, 47, 17);
+    background-color: #7D6F2B;
     transition: all 0.25s ease;
 }
