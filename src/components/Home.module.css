@@ -5,13 +5,20 @@
   margin: 2rem;
 }
 
+.Title img {
+  width: 128px;
+}
+
 .Subtitle {
   font-size: 2rem;
 }
 
 .Footer {
   position: absolute;
-  top: 90%;
+  top: 95%;
+  font-size: 1rem;
+  color: gray;
+  font-style: italic;
 }
 
 .Link {
@@ -40,7 +47,7 @@
 
 .MotionDiv {
   text-align: center;
-  background-color: #1b1d22;
+  background-color: #121212;
   display: flex;
   flex-direction: column;
   align-items: center;

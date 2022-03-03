@@ -1,6 +1,6 @@
 .MotionDiv {
   text-align: center;
-  background-color: #1b1d22;
+  background-color: #121212;
   display: flex;
   gap: 2rem;
   flex-direction: column;
@@ -82,8 +82,8 @@ Button {
 }
 
 .CheckBox {
-  height: 30px;
-  width: 30px;
+  height: 25px;
+  width: 25px;
 }
 
 .OptionContainer {
@@ -91,7 +91,7 @@ Button {
   flex-direction: row;
   gap: 0.5rem;
   align-items: center;
-  font-size: 1.2rem;
+  font-size: 1rem;
   text-align: left;
 }
 
@@ -105,6 +105,6 @@ Button {
     width: 20px;
   }
   .OptionContainer {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 }

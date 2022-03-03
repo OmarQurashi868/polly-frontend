@@ -2,11 +2,12 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 1rem 0rem 1rem 0rem;
+  padding: 0.5rem 0rem 0.5rem 0rem;
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgb(42, 41, 46);
+  /* background-color: rgb(42, 41, 46); */
+  background-color: #cbb028;
   width: 100%;
   box-shadow: 1px 1px 6px 0px black;
   z-index: 1000;
@@ -14,16 +15,19 @@
 
 .Link {
   font-size: 2.5rem;
-  color: #CBB028;
+  /* color: #CBB028; */
+  color: black;
   font-weight: bold;
   text-decoration: none;
 }
 
 .Button {
   text-decoration: none;
-  background-color: #CBB028;
+  /* background-color: #CBB028; */
+  background-color: #121212;
   font-weight: bold;
-  color: black;
+  /* color: black; */
+  color: #cbb028;
   border-radius: 8px;
   border: none;
   padding: 0.75rem;
@@ -33,11 +37,13 @@
 }
 
 .Button:hover {
-  background-color: #e0c952;
+  /* background-color: #e0c952; */
+  background-color: #333333;
   transition: all 0.25s ease;
 }
 
 .Button:active {
-  background-color: #7D6F2B;
+  /* background-color: #7d6f2b; */
+  background-color: #000000;
   transition: all 0.25s ease;
 }

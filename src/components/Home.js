@@ -11,17 +11,20 @@ function Home() {
       transition={{ duration: 0.25 }}
       className={styles.MotionDiv}
     >
-      <span className={styles.Title}>Polly</span>
+      <span className={styles.Title}>
+        Polly{" "}
+        <img alt="Cute bee" src={require("../files/bigbee.png")} />
+      </span>
       <span className={styles.Subtitle}>
         Create instant, customizable polls right now
       </span>
 
-        <Link to="/newpoll" className={styles.Link}>
-          CREATE POLL
-        </Link>
+      <Link to="/newpoll" className={styles.Link}>
+        CREATE POLL
+      </Link>
 
       <footer className={styles.Footer}>
-        Designed and developed by Omar Qurashi
+        Designed and developed by Omar Qurashi (OmarQurashi868@gmail.com)
       </footer>
     </motion.div>
   );
