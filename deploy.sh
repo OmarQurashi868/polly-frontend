@@ -18,7 +18,7 @@ git clone --single-branch --branch $OUTPUT_BRANCH "https://x-access-token:$API_T
 ls
 
 echo "Copying contents to git repo"
-cp -a "$SOURCE_FILE" "$CLONE_DIR"
+yes | cp -af "$SOURCE_FILE" "$CLONE_DIR"
 
 cd "$CLONE_DIR"
 COMMIT_MESSAGE="Update from https://$GIT_SERVER/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
