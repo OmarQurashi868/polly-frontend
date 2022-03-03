@@ -3,7 +3,7 @@
 set -e
 set -x
 
-SOURCE_FILE="build/*"
+SOURCE_FILE="build/."
 GIT_SERVER="github.com"
 OUTPUT_BRANCH="main"
 DESTINATION_REPO="OmarQurashi868/polly"
@@ -15,10 +15,10 @@ git config --global user.email "build@build.build"
 git config --global user.name "github-actions"
 git clone --single-branch --branch $OUTPUT_BRANCH "https://x-access-token:$API_TOKEN_GITHUB@$GIT_SERVER/$DESTINATION_REPO.git" "$CLONE_DIR"
 
-ls ./build
+ls
 
 echo "Copying contents to git repo"
-rsync -avrh "$SOURCE_FILE" "$CLONE_DIR"
+cp -a "$SOURCE_FILE" "$CLONE_DIR"
 
 cd "$CLONE_DIR"
 COMMIT_MESSAGE="Update from https://$GIT_SERVER/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
