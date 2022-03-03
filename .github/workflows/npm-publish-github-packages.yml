@@ -15,23 +15,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 16
-      - run: npm run build
-      
-      
-  copy-file:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
 
-    - name: Pushes test file
-      uses: OmarQurashi868/copy_file_to_another_repo_action@main
-      env:
-        API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
-      with:
-        source_file: 'build'
-        destination_repo: 'OmarQurashi868/polly'
-        destination_folder: '/'
-        user_email: 'Build@build.build'
-        user_name: 'GithubAction'
-        commit_message: 'Auto move from build'
+      - run: npm install
+      - run: npm run build
+      - run: npm run deploy
