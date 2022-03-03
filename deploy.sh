@@ -15,6 +15,8 @@ git config --global user.email "build@build.build"
 git config --global user.name "github-actions"
 git clone --single-branch --branch $OUTPUT_BRANCH "https://x-access-token:$API_TOKEN_GITHUB@$GIT_SERVER/$DESTINATION_REPO.git" "$CLONE_DIR"
 
+ls ./build
+
 echo "Copying contents to git repo"
 rsync -avrh "$SOURCE_FILE" "$CLONE_DIR"
 
