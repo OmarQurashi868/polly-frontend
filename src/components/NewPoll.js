@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
 import styles from "./NewPoll.module.css";
 import Card from "./UI/Card";
 import Navbar from "./UI/Navbar";
@@ -10,6 +11,8 @@ const { REACT_APP_BACKEND_URL } = process.env;
 
 const NewPoll = () => {
   let navigate = useNavigate();
+  const cookies = new Cookies();
+
   const [choices, setChoices] = useState([
     {
       key: 0,
@@ -213,6 +216,10 @@ const NewPoll = () => {
           return res.json();
         })
         .then((res) => {
+          const expiryDate = new Date();
+          expiryDate.setMonth(expiryDate.getMonth() + 2);
+          cookies.set(`${res._id}-adminLink`, res.adminLink, { path: "/", expires: expiryDate });
+
           if (statusCode === 201) {
             navigate(`/poll/${res._id}`);
           } else {

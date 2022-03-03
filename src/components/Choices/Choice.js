@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import Cookies from "universal-cookie";
 import styles from "./Choice.module.css";
 import VoteButton from "../UI/VoteButton";
 import { PollContext } from "../Poll";
@@ -8,6 +9,7 @@ const { REACT_APP_BACKEND_URL } = process.env;
 const Choice = (props) => {
   const ctx = useContext(PollContext);
   let gapValue;
+  const cookies = new Cookies();
 
   const onVoteHandler = () => {
     fetch(`${REACT_APP_BACKEND_URL}/vote/${ctx.id}/${props.choiceId}`, {
@@ -24,10 +26,12 @@ const Choice = (props) => {
       })
       .then((res) => {
         // Store data showing the client already voted on this choice
-        const prevDataObject = JSON.parse(localStorage.getItem(ctx.id));
+        const prevDataObject = cookies.get(ctx.id);
         const dataObject = { ...prevDataObject };
         dataObject[props.choiceId] = true;
-        localStorage.setItem(ctx.id, JSON.stringify(dataObject));
+        const expiryDate = new Date();
+        expiryDate.setMonth(expiryDate.getMonth() + 2);
+        cookies.set(ctx.id, dataObject, { path: "/", expires: expiryDate });
 
         gapValue = "0.7";
 
@@ -50,10 +54,12 @@ const Choice = (props) => {
       })
       .then((res) => {
         // STORE LOCAL STORAGE
-        const prevDataObject = JSON.parse(localStorage.getItem(ctx.id));
+        const prevDataObject = cookies.get(ctx.id);
         const dataObject = { ...prevDataObject };
         dataObject[props.choiceId] = false;
-        localStorage.setItem(ctx.id, JSON.stringify(dataObject));
+        const expiryDate = new Date();
+        expiryDate.setMonth(expiryDate.getMonth() + 2);
+        cookies.set(ctx.id, dataObject, { path: "/", expires: expiryDate });
 
         ctx.onChange();
       });

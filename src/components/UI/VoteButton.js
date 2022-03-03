@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
+import Cookies from "universal-cookie";
 import styles from "./VoteButton.module.css";
 import { motion } from "framer-motion";
 
 const VoteButton = (props) => {
   const [voteState, setVoteState] = useState(false);
+  const cookies = new Cookies();
 
   // Check if client already voted on this choice
   useEffect(() => {
-    if (JSON.parse(localStorage.getItem(props.pollId)) != null) {
-      if (
-        JSON.parse(localStorage.getItem(props.pollId))[props.choiceId] === true
-      ) {
+    if (cookies.get(props.pollId) != null) {
+      if (cookies.get(props.pollId)[props.choiceId] === true) {
         setVoteState(true);
       } else {
         setVoteState(false);

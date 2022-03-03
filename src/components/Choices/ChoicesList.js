@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import Cookies from "universal-cookie";
 import styles from "./ChoicesList.module.css";
 import Choice from "./Choice";
 import { PollContext } from "../Poll";
@@ -6,13 +7,14 @@ import { PollContext } from "../Poll";
 const ChoicesList = (props) => {
   const voteValues = props.pollChoices.map((e) => e.voteCount);
   const highestVote = Math.max(...voteValues);
+  const cookies = new Cookies();
 
   const ctx = useContext(PollContext);
   let alreadyVoted = false;
   let votedId = "0";
 
   if (!props.canMultipleVote) {
-    const votedChoices = JSON.parse(localStorage.getItem(ctx.id));
+    const votedChoices = cookies.get(ctx.id);
 
     if (votedChoices) {
       for (const choice in votedChoices) {
