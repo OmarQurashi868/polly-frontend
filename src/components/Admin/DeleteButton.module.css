@@ -1,0 +1,41 @@
+.Button {
+  background-color: #cb4028;
+  border-style: solid;
+  border-radius: 8px;
+  border-color: #cb4028;
+  color: #cb4028;
+  font-size: 1.5rem;
+  width: 3rem;
+  min-width: 3rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.25s ease;
+  align-self: flex-start;
+  margin-left: 1rem;
+}
+
+.Button:hover {
+  border-color: #e7543a;
+  background-color: #e7543a;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.Button:active {
+  border-color: #b8351d;
+  background-color: #b8351d;
+}
+
+.Button img {
+  width: 24px;
+  height: 24px;
+}
+
+@media (min-width: 768px) {
+  .Button {
+    width: 5rem;
+    min-width: 5rem;
+  }
+}

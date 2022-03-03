@@ -6,13 +6,13 @@ import Button from "../UI/Button";
 
 const SharingWidget = (props) => {
   const cookies = new Cookies();
-  const url = window.location.href.slice(0, -6);
+  const url = window.location.href;
 
   const copyText = () => {
     const text = document.getElementById("link");
     text.select();
     // text.setSelectionRange(0, 99999);
-    navigator.clipboard.writeText(`${url}${props.pollId}`);
+    navigator.clipboard.writeText(`${url}`);
   };
 
   let adminLink;
@@ -23,7 +23,7 @@ const SharingWidget = (props) => {
 
   const navigateToAdmin = () => {
     window.open(
-      `${url}${props.pollId}/${adminLink}`,
+      `${url}/${adminLink}`,
       "_blank",
       "noopener,noreferrer"
     );
@@ -39,7 +39,7 @@ const SharingWidget = (props) => {
             type="text"
             id="link"
             name="link"
-            value={`${url}${props.pollId}`}
+            value={`${url}`}
           />
           <Button onClick={copyText} className={styles.Button}>
             {window.innerWidth > 768 ? `Copy` : `Select`}
@@ -54,7 +54,7 @@ const SharingWidget = (props) => {
                 type="text"
                 id="link"
                 name="link"
-                value={`${url}${props.pollId}/${adminLink}`}
+                value={`${url}/${adminLink}`}
               />
               <Button onClick={navigateToAdmin} className={styles.Button}>
                 Go

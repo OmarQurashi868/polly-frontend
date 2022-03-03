@@ -30,6 +30,12 @@ const ChoicesList = (props) => {
     }
   }
 
+  let isLastChoice = false;
+
+  if (props.pollChoices.length === 1) {
+    isLastChoice = true;
+  }
+
   return (
     <ul className={styles.ChoicesContainer}>
       {props.pollChoices.map((e) => {
@@ -43,6 +49,7 @@ const ChoicesList = (props) => {
             canMultipleVote={props.canMultipleVote}
             votedId={votedId}
             alreadyVoted={alreadyVoted}
+            isLastChoice={isLastChoice}
           />
         );
       })}
