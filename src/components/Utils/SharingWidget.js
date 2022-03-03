@@ -1,8 +1,11 @@
+import { Fragment } from "react";
+import Cookies from "universal-cookie";
 import styles from "./SharingWidget.module.css";
 import Card from "../UI/Card";
 import Button from "../UI/Button";
 
 const SharingWidget = (props) => {
+  const cookies = new Cookies();
   const url = window.location.href.slice(0, -6);
 
   const copyText = () => {
@@ -12,10 +15,24 @@ const SharingWidget = (props) => {
     navigator.clipboard.writeText(`${url}${props.pollId}`);
   };
 
+  let adminLink;
+
+  if (cookies.get(`${props.pollId}-adminLink`)) {
+    adminLink = cookies.get(`${props.pollId}-adminLink`);
+  }
+
+  const navigateToAdmin = () => {
+    window.open(
+      `${url}${props.pollId}/${adminLink}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+  };
+
   return (
     <Card>
       <div className={styles.SharingWidget}>
-        Sharing link:{" "}
+        Sharing link:
         <div className={styles.Container}>
           <input
             readOnly
@@ -28,6 +45,23 @@ const SharingWidget = (props) => {
             {window.innerWidth > 768 ? `Copy` : `Select`}
           </Button>
         </div>
+        {adminLink && (
+          <Fragment>
+            Admin Link:
+            <div className={styles.Container}>
+              <input
+                readOnly
+                type="text"
+                id="link"
+                name="link"
+                value={`${url}${props.pollId}/${adminLink}`}
+              />
+              <Button onClick={navigateToAdmin} className={styles.Button}>
+                Go
+              </Button>
+            </div>
+          </Fragment>
+        )}
       </div>
     </Card>
   );

@@ -3,6 +3,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import Home from "./components/Home";
 import Poll from "./components/Poll";
 import NewPoll from "./components/NewPoll";
+import AdminPoll from "./components/AdminPoll";
 import { AnimatePresence } from "framer-motion";
 
 const App = () => {
@@ -14,7 +15,8 @@ const App = () => {
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Home />} />
           <Route path="/newpoll" element={<NewPoll />} />
-          <Route path="/poll/:id" element={<Poll />} />
+          <Route exact path="/poll/:id" element={<Poll />} />
+          <Route exact path="/poll/:id/:adminLink" element={<AdminPoll />} />
         </Routes>
       </AnimatePresence>
     </div>

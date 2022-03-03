@@ -1,15 +1,15 @@
 import { useContext } from "react";
 import Cookies from "universal-cookie";
-import styles from "./ChoicesList.module.css";
-import Choice from "./Choice";
-import { PollContext } from "../Poll";
+import styles from "./AdminChoicesList.module.css";
+import AdminChoice from "./AdminChoice";
+import { AdminPollContext } from "../AdminPoll";
 
 const ChoicesList = (props) => {
   const voteValues = props.pollChoices.map((e) => e.voteCount);
   const highestVote = Math.max(...voteValues);
   const cookies = new Cookies();
 
-  const ctx = useContext(PollContext);
+  const ctx = useContext(AdminPollContext);
 
   let alreadyVoted = false;
   let votedId = "0";
@@ -34,7 +34,7 @@ const ChoicesList = (props) => {
     <ul className={styles.ChoicesContainer}>
       {props.pollChoices.map((e) => {
         return (
-          <Choice
+          <AdminChoice
             key={e._id}
             choiceId={e._id}
             choiceName={e.name}

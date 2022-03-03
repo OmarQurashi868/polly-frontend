@@ -1,0 +1,57 @@
+.MotionDiv {
+  text-align: center;
+  background-color: #1b1d22;
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  color: white;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.PollQuestion {
+  text-align: left;
+  font-size: 2rem;
+}
+
+.PollNameText {
+  text-align: left;
+  font-size: 1rem;
+  color: gray;
+}
+
+.Italics {
+  font-style: italic;
+  transition: none !important;
+}
+
+.Container {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.ErrorText {
+  color: rgb(187, 60, 60);
+  font-weight: bold;
+  transition: none !important;
+}
+
+.PollInfoContainer {
+  border-bottom: 1px solid rgb(211, 211, 211);
+  max-width: 100%;
+}
+
+.SmallText {
+  font-style: italic;
+  transition: none !important;
+  color: gray;
+  font-size: 1rem;
+}
+
+@media (min-width: 768px) {
+  .SmallText {
+    font-size: 1.3rem;
+  }
+}
