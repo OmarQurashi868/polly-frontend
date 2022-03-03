@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      REACT_APP_BACKEND_URL: ${{ secrets.REACT_APP_BACKEND_URL }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
