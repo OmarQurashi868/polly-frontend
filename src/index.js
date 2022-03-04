@@ -6,9 +6,11 @@ import reportWebVitals from "./reportWebVitals";
 import { HashRouter } from "react-router-dom";
 
 ReactDOM.render(
-  <HashRouter basename={"/polly"}>
-    <App />
-  </HashRouter>,
+  <React.StrictMode>
+    <HashRouter basename={"/polly"}>
+      <App />
+    </HashRouter>
+  </React.StrictMode>,
   document.getElementById("root")
 );
 
