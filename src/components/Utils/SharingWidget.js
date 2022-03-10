@@ -11,8 +11,8 @@ const SharingWidget = (props) => {
   const copyText = () => {
     const text = document.getElementById("link");
     text.select();
-    // text.setSelectionRange(0, 99999);
-    navigator.clipboard.writeText(`${url}`);
+    text.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(window.location.href);
   };
 
   let adminLink;
