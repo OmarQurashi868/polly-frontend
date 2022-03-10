@@ -8,11 +8,11 @@ const SharingWidget = (props) => {
   const cookies = new Cookies();
   const url = window.location.href;
 
-  const copyText = () => {
+  const copyText = async () => {
     const text = document.getElementById("link");
     text.select();
     text.setSelectionRange(0, 99999);
-    navigator.clipboard.writeText(window.location.href);
+    await navigator.clipboard.writeText(window.location.href);
   };
 
   let adminLink;
