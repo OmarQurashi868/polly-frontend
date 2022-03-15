@@ -12,7 +12,11 @@ const SharingWidget = (props) => {
     const text = document.getElementById("link");
     text.select();
     text.setSelectionRange(0, 99999);
-    await navigator.clipboard.writeText(`${url}`);
+    try {
+      await navigator.clipboard.writeText(`${url}`);
+    } catch (err) {
+      console.log(err.toString());
+    }
   };
 
   let adminLink;
@@ -22,11 +26,7 @@ const SharingWidget = (props) => {
   }
 
   const navigateToAdmin = () => {
-    window.open(
-      `${url}/${adminLink}`,
-      "_blank",
-      "noopener,noreferrer"
-    );
+    window.open(`${url}/${adminLink}`, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -34,13 +34,7 @@ const SharingWidget = (props) => {
       <div className={styles.SharingWidget}>
         Sharing link:
         <div className={styles.Container}>
-          <input
-            readOnly
-            type="text"
-            id="link"
-            name="link"
-            value={`${url}`}
-          />
+          <input readOnly type="text" id="link" name="link" value={`${url}`} />
           <Button onClick={copyText} className={styles.Button}>
             {/* {window.innerWidth > 768 ? `Copy` : `Select`} */}
             Select
