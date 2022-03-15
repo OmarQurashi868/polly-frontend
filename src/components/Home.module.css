@@ -14,8 +14,8 @@
 }
 
 .Footer {
-  position: absolute;
-  top: 95%;
+  /* position: absolute;
+  top: 95%; */
   font-size: 1rem;
   color: gray;
   font-style: italic;

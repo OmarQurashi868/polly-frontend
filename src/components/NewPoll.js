@@ -151,12 +151,13 @@ const NewPoll = () => {
         passedErrorCheck = false;
         addOptionError(2);
       } else if (
+        document.getElementById("startDate").value.length > 1 &&
         new Date(document.getElementById("endDate").value)
           .toISOString()
           .substring(0, 16) <
-        new Date(document.getElementById("startDate").value)
-          .toISOString()
-          .substring(0, 16)
+          new Date(document.getElementById("startDate").value)
+            .toISOString()
+            .substring(0, 16)
       ) {
         // setOptionError("End date cannot be before start date");
         passedErrorCheck = false;
@@ -196,13 +197,17 @@ const NewPoll = () => {
       }
 
       if (startAtObj && startAtObj.checked) {
-        pollData.pollData.startDate =
-          document.getElementById("startDate").value;
+        pollData.pollData.startDate = new Date(
+          document.getElementById("startDate").value
+        );
       }
 
       if (endAtObj && endAtObj.checked) {
-        pollData.pollData.endDate = document.getElementById("endDate").value;
+        pollData.pollData.endDate = new Date(
+          document.getElementById("endDate").value
+        );
       }
+      console.log(Date(document.getElementById("startDate").value));
 
       fetch(REACT_APP_BACKEND_URL, {
         method: "POST",
@@ -218,7 +223,11 @@ const NewPoll = () => {
         .then((res) => {
           const expiryDate = new Date();
           expiryDate.setMonth(expiryDate.getMonth() + 2);
-          cookies.set(`${res._id}-adminLink`, res.adminLink, { path: "/", expires: expiryDate });
+          cookies.set(`${res._id}-adminLink`, res.adminLink, {
+            path: "/",
+            expires: expiryDate,
+            sameSite: "strict",
+          });
 
           if (statusCode === 201) {
             navigate(`/poll/${res._id}`);

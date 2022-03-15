@@ -31,7 +31,11 @@ const Choice = (props) => {
         dataObject[props.choiceId] = true;
         const expiryDate = new Date();
         expiryDate.setMonth(expiryDate.getMonth() + 2);
-        cookies.set(ctx.id, dataObject, { path: "/", expires: expiryDate });
+        cookies.set(ctx.id, dataObject, {
+          path: "/",
+          expires: expiryDate,
+          sameSite: "strict",
+        });
 
         gapValue = "0.7";
 
@@ -53,13 +57,17 @@ const Choice = (props) => {
         return res.json();
       })
       .then((res) => {
-        // STORE LOCAL STORAGE
+        // Store local data for unvoting
         const prevDataObject = cookies.get(ctx.id);
         const dataObject = { ...prevDataObject };
         dataObject[props.choiceId] = false;
         const expiryDate = new Date();
         expiryDate.setMonth(expiryDate.getMonth() + 2);
-        cookies.set(ctx.id, dataObject, { path: "/", expires: expiryDate });
+        cookies.set(ctx.id, dataObject, {
+          path: "/",
+          expires: expiryDate,
+          sameSite: "strict",
+        });
 
         ctx.onChange();
       });
