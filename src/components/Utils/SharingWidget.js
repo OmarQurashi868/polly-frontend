@@ -42,7 +42,8 @@ const SharingWidget = (props) => {
             value={`${url}`}
           />
           <Button onClick={copyText} className={styles.Button}>
-            {window.innerWidth > 768 ? `Copy` : `Select`}
+            {/* {window.innerWidth > 768 ? `Copy` : `Select`} */}
+            Select
           </Button>
         </div>
         {adminLink && (
