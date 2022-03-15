@@ -12,7 +12,7 @@ const SharingWidget = (props) => {
     const text = document.getElementById("link");
     text.select();
     text.setSelectionRange(0, 99999);
-    await navigator.clipboard.writeText(window.location.href);
+    await navigator.clipboard.writeText(`${url}`);
   };
 
   let adminLink;

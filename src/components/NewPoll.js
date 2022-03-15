@@ -207,7 +207,6 @@ const NewPoll = () => {
           document.getElementById("endDate").value
         );
       }
-      console.log(Date(document.getElementById("startDate").value));
 
       fetch(REACT_APP_BACKEND_URL, {
         method: "POST",
