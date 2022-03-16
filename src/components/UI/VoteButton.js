@@ -46,6 +46,21 @@ const VoteButton = (props) => {
 
   if (!props.isActive) {
     content = null;
+  } else if (props.isLoading) {
+    const buttonStyles = `${styles.UnVoteButton} ${styles.Disabled}`
+    content = (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.25 }}
+        className={styles.MotionDiv}
+      >
+        <button onClick={unVoteHandler} className={buttonStyles}>
+          <div className={styles.Loader} />
+        </button>
+      </motion.div>
+    );
   } else if (voteState) {
     content = (
       <motion.div

@@ -52,6 +52,15 @@ const NewPoll = () => {
 
   let statusCode;
 
+  const [isLoading, setIsLoading] = useState(false);
+  let buttonStyles;
+
+  if (!isLoading) {
+    buttonStyles = `${styles.Button}`
+  } else {
+    buttonStyles = `${styles.Button} ${styles.Disabled}`
+  }
+
   const addQuestionError = (errCode) => {
     setQuestionError((prevErrors) => {
       let questionErrAlreadyExists = false;
@@ -208,6 +217,9 @@ const NewPoll = () => {
         );
       }
 
+      // Change button state to loading
+      setIsLoading(true);
+
       fetch(REACT_APP_BACKEND_URL, {
         method: "POST",
         headers: {
@@ -231,6 +243,9 @@ const NewPoll = () => {
           if (statusCode === 201) {
             navigate(`/poll/${res._id}`);
           } else {
+            // Change button state back
+            setIsLoading(false)
+            setQuestionError(res.message)
             console.log(res);
           }
         });
@@ -363,8 +378,8 @@ const NewPoll = () => {
               );
             })}
           </div>
-          <Button type="submit" className={styles.Button}>
-            Create
+          <Button type="submit" className={buttonStyles}>
+            {isLoading ? <div className={styles.Loader} /> : "Create"}
           </Button>
         </form>
       </Card>

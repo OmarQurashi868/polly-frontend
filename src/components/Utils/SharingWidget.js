@@ -15,7 +15,7 @@ const SharingWidget = (props) => {
     try {
       await navigator.clipboard.writeText(`${url}`);
     } catch (err) {
-      console.log(err.toString());
+      console.log("Copy to clipboard failed, probably because the page is HTTP...");
     }
   };
 
@@ -36,8 +36,7 @@ const SharingWidget = (props) => {
         <div className={styles.Container}>
           <input readOnly type="text" id="link" name="link" value={`${url}`} />
           <Button onClick={copyText} className={styles.Button}>
-            {/* {window.innerWidth > 768 ? `Copy` : `Select`} */}
-            Select
+            {window.innerWidth > 768 ? `Copy` : `Select`}
           </Button>
         </div>
         {adminLink && (

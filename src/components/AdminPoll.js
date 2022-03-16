@@ -13,6 +13,7 @@ import Navbar from "./UI/Navbar";
 import AdminChoicesList from "./Admin/AdminChoicesList";
 import AdminNewChoice from "./Admin/AdminNewChoice";
 import Timer from "./Utils/Timer";
+import AdminSharingWidget from "./Utils/AdminSharingWidget";
 
 const { REACT_APP_BACKEND_URL } = process.env;
 
@@ -106,6 +107,7 @@ const Poll = () => {
       className={styles.MotionDiv}
     >
       <Navbar CreateButton />
+      {!errorState && <AdminSharingWidget pollId={id} />}
       <Card className={styles.Container}>
         {errorState ? (
           <div className={styles.ErrorText}>

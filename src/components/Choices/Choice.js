@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Cookies from "universal-cookie";
 import styles from "./Choice.module.css";
 import VoteButton from "../UI/VoteButton";
@@ -11,7 +11,21 @@ const Choice = (props) => {
   let gapValue;
   const cookies = new Cookies();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const onVoteHandler = () => {
+    // Store data showing the client already voted on this choice
+    const prevDataObject = cookies.get(ctx.id);
+    const dataObject = { ...prevDataObject };
+    dataObject[props.choiceId] = true;
+    const expiryDate = new Date();
+    expiryDate.setMonth(expiryDate.getMonth() + 2);
+    cookies.set(ctx.id, dataObject, {
+      path: "/",
+      expires: expiryDate,
+      sameSite: "strict",
+    });
+    setIsLoading(true);
     fetch(`${REACT_APP_BACKEND_URL}/vote/${ctx.id}/${props.choiceId}`, {
       method: "PATCH",
       headers: {
@@ -20,30 +34,40 @@ const Choice = (props) => {
     })
       .then((res) => {
         if (res.status !== 201) {
+          dataObject[props.choiceId] = false;
+          cookies.set(ctx.id, dataObject, {
+            path: "/",
+            expires: expiryDate,
+            sameSite: "strict",
+          });
           alert(`Operation failed with error code ${res.status}`);
+          ctx.onChange();
         }
         return res.json();
       })
       .then((res) => {
-        // Store data showing the client already voted on this choice
-        const prevDataObject = cookies.get(ctx.id);
-        const dataObject = { ...prevDataObject };
-        dataObject[props.choiceId] = true;
-        const expiryDate = new Date();
-        expiryDate.setMonth(expiryDate.getMonth() + 2);
-        cookies.set(ctx.id, dataObject, {
-          path: "/",
-          expires: expiryDate,
-          sameSite: "strict",
-        });
-
         gapValue = "0.7";
-
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 300);
         ctx.onChange();
       });
   };
 
   const onUnVoteHandler = () => {
+    // Store local data for unvoting
+    const prevDataObject = cookies.get(ctx.id);
+    const dataObject = { ...prevDataObject };
+    dataObject[props.choiceId] = false;
+    const expiryDate = new Date();
+    expiryDate.setMonth(expiryDate.getMonth() + 2);
+    cookies.set(ctx.id, dataObject, {
+      path: "/",
+      expires: expiryDate,
+      sameSite: "strict",
+    });
+    // ctx.onChange();
+    setIsLoading(true);
     fetch(`${REACT_APP_BACKEND_URL}/unvote/${ctx.id}/${props.choiceId}`, {
       method: "PATCH",
       headers: {
@@ -52,23 +76,21 @@ const Choice = (props) => {
     })
       .then((res) => {
         if (res.status !== 201) {
+          dataObject[props.choiceId] = true;
+          cookies.set(ctx.id, dataObject, {
+            path: "/",
+            expires: expiryDate,
+            sameSite: "strict",
+          });
           alert(`Operation failed with error code ${res.status}`);
+          ctx.onChange();
         }
         return res.json();
       })
       .then((res) => {
-        // Store local data for unvoting
-        const prevDataObject = cookies.get(ctx.id);
-        const dataObject = { ...prevDataObject };
-        dataObject[props.choiceId] = false;
-        const expiryDate = new Date();
-        expiryDate.setMonth(expiryDate.getMonth() + 2);
-        cookies.set(ctx.id, dataObject, {
-          path: "/",
-          expires: expiryDate,
-          sameSite: "strict",
-        });
-
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 300);
         ctx.onChange();
       });
   };
@@ -110,6 +132,7 @@ const Choice = (props) => {
           pollId={ctx.id}
           choiceId={props.choiceId}
           isActive={isActive}
+          isLoading={isLoading}
         />
       </div>
       <div className={styles.BotContainer} style={{ gap: gapValue }}>

@@ -11,21 +11,31 @@ function Home() {
       transition={{ duration: 0.25 }}
       className={styles.MotionDiv}
     >
-      <span className={styles.Title}>
-        Polly{" "}
-        <img alt="Cute bee" src={require("../files/bigbee.png")} />
-      </span>
+      <div className={styles.TitleContainer}>
+        <div className={styles.Title}>Polly </div>
+        <div className={styles.ArtContainer}>
+          <img alt="Cute bee" className={styles.Image} src={require("../files/bigbee.png")} />
+          Art by Asia
+        </div>
+      </div>
       <span className={styles.Subtitle}>
-        Create instant, customizable polls right now
+        Create instant, customizable polls with ease
       </span>
-
       <Link to="/newpoll" className={styles.Link}>
         CREATE POLL
       </Link>
-
       <footer className={styles.Footer}>
         Designed and developed by Omar Qurashi (OmarQurashi868@gmail.com)
       </footer>
+      <div className={styles.FooterLink}>
+        <a
+          href="https://github.com/OmarQurashi868/polly-frontend"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          https://github.com/OmarQurashi868/polly-frontend
+        </a>
+      </div>
     </motion.div>
   );
 }

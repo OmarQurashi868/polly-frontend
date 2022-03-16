@@ -2,8 +2,8 @@
   background-color: transparent;
   border-style: solid;
   border-radius: 8px;
-  border-color: #CBB028;
-  color: #CBB028;
+  border-color: #cbb028;
+  color: #cbb028;
   font-size: 1.5rem;
   width: 3rem;
   min-width: 3rem;
@@ -24,8 +24,8 @@
 }
 
 .VoteButton:active {
-  border-color: #7D6F2B;
-  color: #7D6F2B;
+  border-color: #7d6f2b;
+  color: #7d6f2b;
 }
 
 @media (min-width: 768px) {
@@ -36,10 +36,10 @@
 }
 
 .UnVoteButton {
-  background-color: #CBB028;
+  background-color: #cbb028;
   border-style: solid;
   border-radius: 8px;
-  border-color: #CBB028;
+  border-color: #cbb028;
   color: black;
   font-size: 1.5rem;
   width: 3rem;
@@ -61,8 +61,8 @@
 }
 
 .UnVoteButton:active {
-  border-color: #7D6F2B;
-  background-color: #7D6F2B;
+  border-color: #7d6f2b;
+  background-color: #7d6f2b;
 }
 
 @media (min-width: 768px) {
@@ -70,4 +70,28 @@
     width: 5rem;
     min-width: 5rem;
   }
+}
+
+.Loader {
+  border: 4px solid #131313; /* Light grey */
+  border-top: 4px solid transparent; /* Blue */
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 2s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.Disabled {
+  pointer-events: none;
+  cursor: not-allowed;
 }
