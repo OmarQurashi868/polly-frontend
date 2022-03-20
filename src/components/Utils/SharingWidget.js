@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import Cookies from "universal-cookie";
 import styles from "./SharingWidget.module.css";
 import Card from "../UI/Card";
@@ -6,7 +6,7 @@ import Button from "../UI/Button";
 
 const SharingWidget = (props) => {
   const cookies = new Cookies();
-  const url = window.location.href;
+  const [url] = useState(window.location.href);
 
   const copyText = async () => {
     const text = document.getElementById("link");
@@ -36,7 +36,8 @@ const SharingWidget = (props) => {
         <div className={styles.Container}>
           <input readOnly type="text" id="link" name="link" value={`${url}`} />
           <Button onClick={copyText} className={styles.Button}>
-            {window.innerWidth > 768 ? `Copy` : `Select`}
+            {/* {window.innerWidth > 768 ? `Copy` : `Select`} */}
+            Select
           </Button>
         </div>
         {adminLink && (

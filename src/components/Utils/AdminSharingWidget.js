@@ -1,9 +1,10 @@
+import { useState } from "react";
 import styles from "./AdminSharingWidget.module.css";
 import Card from "../UI/Card";
 import Button from "../UI/Button";
 
 const SharingWidget = (props) => {
-  const url = window.location.href.slice(0, -7);
+  const [url] = useState(window.location.href.slice(0, window.location.href.lastIndexOf("/")));
 
   const copyText = async () => {
     const text = document.getElementById("link");
@@ -23,7 +24,8 @@ const SharingWidget = (props) => {
         <div className={styles.Container}>
           <input readOnly type="text" id="link" name="link" value={`${url}`} />
           <Button onClick={copyText} className={styles.Button}>
-            {window.innerWidth > 768 ? `Copy` : `Select`}
+            {/* {window.innerWidth > 768 ? `Copy` : `Select`} */}
+            Select
           </Button>
         </div>
       </div>

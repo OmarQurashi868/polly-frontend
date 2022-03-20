@@ -91,20 +91,6 @@ const VoteButton = (props) => {
     );
   }
 
-  // if (!voteState) {
-  //   content = (
-  //     <button onClick={voteHandler} className={styles.VoteButton}>
-  //       +
-  //     </button>
-  //   );
-  // } else {
-  //   content = (
-  //     <button onClick={unVoteHandler} className={styles.UnVoteButton}>
-  //       -
-  //     </button>
-  //   );
-  // }
-
   return content;
 };
 

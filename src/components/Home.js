@@ -1,8 +1,17 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Home.module.css";
 import { motion } from "framer-motion";
 
 function Home() {
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    if (window.location.pathname !== "/") {
+      navigate("/");
+    }
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -14,7 +23,11 @@ function Home() {
       <div className={styles.TitleContainer}>
         <div className={styles.Title}>Polly </div>
         <div className={styles.ArtContainer}>
-          <img alt="Cute bee" className={styles.Image} src={require("../files/bigbee.png")} />
+          <img
+            alt="Cute bee"
+            className={styles.Image}
+            src={require("../files/bigbee.png")}
+          />
           Art by Asia
         </div>
       </div>

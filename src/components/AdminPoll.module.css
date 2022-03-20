@@ -13,7 +13,7 @@
 
 .PollQuestion {
   text-align: left;
-  font-size: 2rem;
+  font-size: 1.6rem;
 }
 
 .PollNameText {
@@ -48,6 +48,32 @@
   transition: none !important;
   color: gray;
   font-size: 1rem;
+}
+
+.Loader {
+  border: 4px solid #cbb028;
+  border-top: 4px solid transparent;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 2s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.ErrorText a {
+  color: #c7c75c;
+  font-style: italic;
+  font-size: 1rem;
+  font-weight: normal;
 }
 
 @media (min-width: 768px) {

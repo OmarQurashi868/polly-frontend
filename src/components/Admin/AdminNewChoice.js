@@ -10,6 +10,8 @@ const NewChoice = () => {
   const [inputState, setInputState] = useState(false);
   const [errorState, setErrorState] = useState();
   const choiceRef = useRef();
+  const [isLoading, setIsLoading] = useState(false)
+  let buttonStyles = `${styles.NewChoiceButton}`;
 
   const onButtonClickHandler = () => {
     setInputState(true);
@@ -46,6 +48,9 @@ const NewChoice = () => {
       };
 
       let alreadyExists = false;
+
+      buttonStyles = `${styles.NewChoiceButton} ${styles.Disabled}`
+      setIsLoading(true);
 
       fetch(`${REACT_APP_BACKEND_URL}/${ctx.id}`, {
         method: "GET",
@@ -85,6 +90,8 @@ const NewChoice = () => {
               })
               .then((res) => {
                 choiceRef.current.value = "";
+                buttonStyles = `${styles.NewChoiceButton}`
+                setIsLoading(false);
                 setInputState(false);
                 setErrorState();
                 ctx.onChange();
@@ -141,10 +148,10 @@ const NewChoice = () => {
             </button>
             <button
               onClick={onAddChoiceHandler}
-              className={styles.NewChoiceButton}
+              className={buttonStyles}
               id="submitButton"
             >
-              Submit
+              {!isLoading ? "Submit" : <div className={styles.Loader} />}
             </button>
           </div>
         </motion.div>

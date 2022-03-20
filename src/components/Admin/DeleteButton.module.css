@@ -33,6 +33,30 @@
   height: 24px;
 }
 
+.Loader {
+  border: 4px solid black;
+  border-top: 4px solid transparent;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 2s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.Disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 @media (min-width: 768px) {
   .Button {
     width: 5rem;

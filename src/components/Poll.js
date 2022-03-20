@@ -22,8 +22,8 @@ export const PollContext = createContext();
 const Poll = () => {
   const { id } = useParams();
   const [pollData, setPollData] = useState({
-    question: "question",
-    name: "name",
+    question: "Loading...",
+    name: "Please wait...",
     canAddChoices: false,
     canMultipleVote: false,
     isStarted: true,
@@ -34,6 +34,8 @@ const Poll = () => {
   });
   const [errorState, setErrorState] = useState(null);
   const [isChanged, setIsChanged] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const onChangeHandler = useCallback(() => {
     isChanged ? setIsChanged(false) : setIsChanged(true);
@@ -62,6 +64,7 @@ const Poll = () => {
         return res.json();
       })
       .then((res) => {
+        setIsLoading(false);
         setPollData((prevData) => {
           let newData = { ...prevData };
           newData.question = res.question;
@@ -98,6 +101,22 @@ const Poll = () => {
     isTimed = true;
   }
 
+  let content;
+
+  if (!isLoading) {
+    content = (
+      <PollContext.Provider value={ContextPackage}>
+        <ChoicesList
+          pollChoices={pollData.choices}
+          canMultipleVote={pollData.canMultipleVote}
+        />
+        {pollData.canAddChoices && pollData.isActive && <NewChoice />}
+      </PollContext.Provider>
+    );
+  } else {
+    content = <div className={styles.Loader} />;
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -128,13 +147,7 @@ const Poll = () => {
                 )}
               </div>
             </div>
-            <PollContext.Provider value={ContextPackage}>
-              <ChoicesList
-                pollChoices={pollData.choices}
-                canMultipleVote={pollData.canMultipleVote}
-              />
-              {pollData.canAddChoices && pollData.isActive && <NewChoice />}
-            </PollContext.Provider>
+            {content}
           </Fragment>
         )}
       </Card>

@@ -20,10 +20,10 @@ const { REACT_APP_BACKEND_URL } = process.env;
 export const AdminPollContext = createContext();
 
 const Poll = () => {
-  const { id } = useParams();
+  const { id, adminLink } = useParams();
   const [pollData, setPollData] = useState({
-    question: "question",
-    name: "name",
+    question: "Loading...",
+    name: "Please wait...",
     canAddChoices: false,
     canMultipleVote: false,
     isStarted: true,
@@ -34,6 +34,9 @@ const Poll = () => {
   });
   const [errorState, setErrorState] = useState(null);
   const [isChanged, setIsChanged] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [unauthorized, setUnauthorized] = useState(false);
 
   const onChangeHandler = useCallback(() => {
     isChanged ? setIsChanged(false) : setIsChanged(true);
@@ -49,7 +52,7 @@ const Poll = () => {
   }, [onChangeHandler]);
 
   useEffect(() => {
-    fetch(`${REACT_APP_BACKEND_URL}/${id}`, {
+    fetch(`${REACT_APP_BACKEND_URL}/${id}/${adminLink}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -57,11 +60,17 @@ const Poll = () => {
     })
       .then((res) => {
         if (res.status !== 200) {
-          setErrorState("Poll not found");
+          if (res.status === 401) {
+            setUnauthorized(true);
+            setErrorState("Incorrect admin link");
+          } else {
+            setErrorState("Poll not found");
+          }
         }
         return res.json();
       })
       .then((res) => {
+        setIsLoading(false);
         setPollData((prevData) => {
           let newData = { ...prevData };
           newData.question = res.question;
@@ -77,7 +86,7 @@ const Poll = () => {
           return newData;
         });
       });
-  }, [id, onChangeHandler]);
+  }, [id, adminLink, onChangeHandler]);
 
   const ContextPackage = {
     id: id,
@@ -98,6 +107,49 @@ const Poll = () => {
     isTimed = true;
   }
 
+  let content;
+
+  if (!isLoading) {
+    content = (
+      <AdminPollContext.Provider value={ContextPackage}>
+        <AdminChoicesList
+          pollChoices={pollData.choices}
+          canMultipleVote={pollData.canMultipleVote}
+        />
+        {pollData.isActive && <AdminNewChoice />}
+      </AdminPollContext.Provider>
+    );
+  } else {
+    content = <div className={styles.Loader} />;
+  }
+
+  let errorContent;
+
+  if (unauthorized) {
+    const pollUrl = window.location.href.slice(
+      0,
+      window.location.href.lastIndexOf("/")
+    );
+
+    errorContent = (
+      <div className={styles.ErrorText}>
+        Incorrect admin link, please go back to:
+        <br />
+        <a href={pollUrl} className={styles.Link}>
+          {pollUrl}
+        </a>
+      </div>
+    );
+  } else {
+    errorContent = (
+      <div className={styles.ErrorText}>
+        Poll with ID <span className={styles.Italics}>{id}</span> was not found!
+      </div>
+    );
+  }
+
+  console.log(errorContent);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -110,10 +162,7 @@ const Poll = () => {
       {!errorState && <AdminSharingWidget pollId={id} />}
       <Card className={styles.Container}>
         {errorState ? (
-          <div className={styles.ErrorText}>
-            Poll with ID <span className={styles.Italics}>{id}</span> was not
-            found!
-          </div>
+          errorContent
         ) : (
           <Fragment>
             <div className={styles.PollInfoContainer}>
@@ -129,13 +178,7 @@ const Poll = () => {
                 )}
               </div>
             </div>
-            <AdminPollContext.Provider value={ContextPackage}>
-              <AdminChoicesList
-                pollChoices={pollData.choices}
-                canMultipleVote={pollData.canMultipleVote}
-              />
-              {pollData.isActive && <AdminNewChoice />}
-            </AdminPollContext.Provider>
+            {content}
           </Fragment>
         )}
       </Card>

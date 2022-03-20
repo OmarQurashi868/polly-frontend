@@ -13,10 +13,11 @@ const App = () => {
     <div className="App">
       <AnimatePresence exitBeforeEnter>
         <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Home />} />
-          <Route path="/newpoll" element={<NewPoll />} />
-          <Route exact path="/poll/:id" element={<Poll />} />
           <Route exact path="/poll/:id/:adminLink" element={<AdminPoll />} />
+          <Route exact path="/poll/:id" element={<Poll />} />
+          <Route path="/newpoll" element={<NewPoll />} />
+          <Route path="/" element={<Home />} />
+          <Route path="*" element={<Home />} />
         </Routes>
       </AnimatePresence>
     </div>

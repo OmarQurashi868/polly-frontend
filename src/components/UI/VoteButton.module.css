@@ -73,8 +73,8 @@
 }
 
 .Loader {
-  border: 4px solid #131313; /* Light grey */
-  border-top: 4px solid transparent; /* Blue */
+  border: 4px solid #131313;
+  border-top: 4px solid transparent;
   border-radius: 50%;
   width: 16px;
   height: 16px;
