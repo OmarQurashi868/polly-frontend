@@ -141,14 +141,19 @@ const Poll = () => {
       </div>
     );
   } else {
+    const homeUrl = window.location.href.slice(
+      0,
+      window.location.href.search(/(?<!\/)\/(?!\/)/)
+    );
+
     errorContent = (
       <div className={styles.ErrorText}>
         Poll with ID <span className={styles.Italics}>{id}</span> was not found!
+        <br />
+        <a href={homeUrl}>Home</a>
       </div>
     );
   }
-
-  console.log(errorContent);
 
   return (
     <motion.div
@@ -160,28 +165,27 @@ const Poll = () => {
     >
       <Navbar CreateButton />
       {!errorState && <AdminSharingWidget pollId={id} />}
-      <Card className={styles.Container}>
-        {errorState ? (
-          errorContent
-        ) : (
-          <Fragment>
-            <div className={styles.PollInfoContainer}>
-              {isTimed && <Timer timerData={timerData} />}
-              <div className={styles.SmallText}>Viewing poll as admin</div>
-              <div className={styles.PollQuestion}>{pollData.question}</div>
-              <div className={styles.PollNameText}>
-                {pollData.name && (
-                  <Fragment>
-                    Asked by{" "}
-                    <span className={styles.Italics}>{pollData.name}</span>
-                  </Fragment>
-                )}
-              </div>
+
+      {errorState ? (
+        <Card className={styles.ErrorContainer}>{errorContent}</Card>
+      ) : (
+        <Card className={styles.Container}>
+          <div className={styles.PollInfoContainer}>
+            {isTimed && <Timer timerData={timerData} />}
+            <div className={styles.SmallText}>Viewing poll as admin</div>
+            <div className={styles.PollQuestion}>{pollData.question}</div>
+            <div className={styles.PollNameText}>
+              {pollData.name && (
+                <Fragment>
+                  Asked by{" "}
+                  <span className={styles.Italics}>{pollData.name}</span>
+                </Fragment>
+              )}
             </div>
-            {content}
-          </Fragment>
-        )}
-      </Card>
+          </div>
+          {content}
+        </Card>
+      )}
     </motion.div>
   );
 };

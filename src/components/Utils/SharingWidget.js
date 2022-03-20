@@ -6,7 +6,10 @@ import Button from "../UI/Button";
 
 const SharingWidget = (props) => {
   const cookies = new Cookies();
-  const [url] = useState(window.location.href);
+  const [url, setUrl] = useState(window.location.href);
+  if (url.endsWith("/")) {
+    setUrl(window.location.href.slice(0, -1));
+  }
 
   const copyText = async () => {
     const text = document.getElementById("link");

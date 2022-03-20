@@ -4,7 +4,11 @@ import Card from "../UI/Card";
 import Button from "../UI/Button";
 
 const SharingWidget = (props) => {
-  const [url] = useState(window.location.href.slice(0, window.location.href.lastIndexOf("/")));
+  let tempUrl = window.location.href
+  if (tempUrl.endsWith("/")) {
+    tempUrl = tempUrl.slice(0, -1);
+  } 
+  const [url] = useState(tempUrl.slice(0, tempUrl.lastIndexOf("/")));
 
   const copyText = async () => {
     const text = document.getElementById("link");

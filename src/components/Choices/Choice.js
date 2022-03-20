@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import Cookies from "universal-cookie";
 import styles from "./Choice.module.css";
 import VoteButton from "../UI/VoteButton";
@@ -13,6 +13,14 @@ const Choice = (props) => {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    if (props.allLoad) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [props.allLoad]);
+
   const onVoteHandler = () => {
     // Store data showing the client already voted on this choice
     const prevDataObject = cookies.get(ctx.id);
@@ -26,6 +34,7 @@ const Choice = (props) => {
       sameSite: "strict",
     });
     setIsLoading(true);
+    props.loadAll();
     fetch(`${REACT_APP_BACKEND_URL}/vote/${ctx.id}/${props.choiceId}`, {
       method: "PATCH",
       headers: {
@@ -49,6 +58,7 @@ const Choice = (props) => {
         gapValue = "0.7";
         setTimeout(() => {
           setIsLoading(false);
+          props.unloadAll();
         }, 300);
         ctx.onChange();
       });
@@ -68,6 +78,7 @@ const Choice = (props) => {
     });
     // ctx.onChange();
     setIsLoading(true);
+    props.loadAll();
     fetch(`${REACT_APP_BACKEND_URL}/unvote/${ctx.id}/${props.choiceId}`, {
       method: "PATCH",
       headers: {
@@ -90,6 +101,7 @@ const Choice = (props) => {
       .then((res) => {
         setTimeout(() => {
           setIsLoading(false);
+          props.unloadAll();
         }, 300);
         ctx.onChange();
       });

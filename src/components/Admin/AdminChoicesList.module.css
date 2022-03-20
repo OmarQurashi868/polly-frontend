@@ -1,5 +1,11 @@
 .ChoicesContainer {
-    display: grid;
-    gap: 1.5rem;
-    padding-inline-start: 0px;
-  }
+  display: grid;
+  gap: 1.5rem;
+  padding-inline-start: 0px;
+}
+
+.Italics {
+  font-style: italic;
+  color: gray;
+  font-size: 1.5rem;
+}

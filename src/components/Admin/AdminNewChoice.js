@@ -10,7 +10,7 @@ const NewChoice = () => {
   const [inputState, setInputState] = useState(false);
   const [errorState, setErrorState] = useState();
   const choiceRef = useRef();
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   let buttonStyles = `${styles.NewChoiceButton}`;
 
   const onButtonClickHandler = () => {
@@ -32,8 +32,18 @@ const NewChoice = () => {
   }, [inputState]);
 
   const onCancelHandler = () => {
+    setErrorState();
     setInputState(false);
   };
+
+  if (document.getElementById("newChoice")) {
+    const input = document.getElementById("newChoice");
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        onAddChoiceHandler();
+      }
+    });
+  }
 
   const onAddChoiceHandler = () => {
     if (choiceRef.current.value.length < 1) {
@@ -49,7 +59,7 @@ const NewChoice = () => {
 
       let alreadyExists = false;
 
-      buttonStyles = `${styles.NewChoiceButton} ${styles.Disabled}`
+      buttonStyles = `${styles.NewChoiceButton} ${styles.Disabled}`;
       setIsLoading(true);
 
       fetch(`${REACT_APP_BACKEND_URL}/${ctx.id}`, {
@@ -69,6 +79,7 @@ const NewChoice = () => {
           for (const choice of choices) {
             if (choice.name === choiceRef.current.value) {
               alreadyExists = true;
+              setIsLoading(false);
               setErrorState("Choice already exists");
             }
           }
@@ -90,7 +101,7 @@ const NewChoice = () => {
               })
               .then((res) => {
                 choiceRef.current.value = "";
-                buttonStyles = `${styles.NewChoiceButton}`
+                buttonStyles = `${styles.NewChoiceButton}`;
                 setIsLoading(false);
                 setInputState(false);
                 setErrorState();

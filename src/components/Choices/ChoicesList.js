@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Cookies from "universal-cookie";
 import styles from "./ChoicesList.module.css";
 import Choice from "./Choice";
@@ -8,6 +8,14 @@ const ChoicesList = (props) => {
   const voteValues = props.pollChoices.map((e) => e.voteCount);
   const highestVote = Math.max(...voteValues);
   const cookies = new Cookies();
+  const [allLoad, setAllLoad] = useState(false);
+
+  const loadAll = () => {
+    setAllLoad(true);
+  };
+  const unloadAll = () => {
+    setAllLoad(false);
+  };
 
   const ctx = useContext(PollContext);
 
@@ -30,6 +38,10 @@ const ChoicesList = (props) => {
     }
   }
 
+  if (props.pollChoices.length < 1) {
+    return <div className={styles.Italics}> No choices available</div>;
+  }
+
   return (
     <ul className={styles.ChoicesContainer}>
       {props.pollChoices.map((e) => {
@@ -43,6 +55,9 @@ const ChoicesList = (props) => {
             canMultipleVote={props.canMultipleVote}
             votedId={votedId}
             alreadyVoted={alreadyVoted}
+            allLoad={allLoad}
+            loadAll={loadAll}
+            unloadAll={unloadAll}
           />
         );
       })}

@@ -9,6 +9,7 @@
   color: white;
   box-sizing: border-box;
   width: 100%;
+  margin-top: 1rem;
 }
 
 .PollQuestion {
@@ -32,10 +33,23 @@
   gap: 1.5rem;
 }
 
+.ErrorContainer {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 10rem;
+}
+
 .ErrorText {
   color: rgb(187, 60, 60);
   font-weight: bold;
   transition: none !important;
+}
+
+.ErrorText a {
+  color: #c7c75c;
+  font-style: italic;
+  font-size: 1.5rem;
+  font-weight: normal;
 }
 
 .PollInfoContainer {

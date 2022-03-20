@@ -1,15 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./DeleteButton.module.css";
 
 const DeleteButton = (props) => {
-  const [isLoading, setIsLoading] = useState(false);
-  let buttonStyles = `${styles.Button}`;
+  const [isLoading, setIsLoading] = useState(true);
+  const [buttonStyles, setButtonStyles] = useState(`${styles.Button}`);
 
   const { REACT_APP_BACKEND_URL } = process.env;
 
+  useEffect(() => {
+    if (props.allLoad) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [props.allLoad]);
+
   const onClickHandler = () => {
-    buttonStyles = `${styles.Button} ${styles.Disabled}`;
+    setButtonStyles(`${styles.Button} ${styles.Disabled}`);
     setIsLoading(true);
+    props.loadAll();
 
     fetch(`${REACT_APP_BACKEND_URL}/remove/${props.pollId}/${props.choiceId}`, {
       method: "DELETE",
@@ -24,11 +33,13 @@ const DeleteButton = (props) => {
         return res.json();
       })
       .then((res) => {
-        buttonStyles = `${styles.Button}`;
-        setIsLoading(false);
+        props.unloadAll();
         props.onChange();
+        setIsLoading(false);
+        setButtonStyles(`${styles.Button}`);
       });
   };
+
   return (
     <button className={buttonStyles} onClick={onClickHandler}>
       {!isLoading ? (

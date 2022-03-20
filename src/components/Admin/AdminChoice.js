@@ -23,7 +23,14 @@ const Choice = (props) => {
       <div className={styles.TopContainer}>
         <div className={styles.NameContainer}>{props.choiceName}</div>
         {!props.isLastChoice && (
-          <DeleteButton pollId={ctx.id} choiceId={props.choiceId} onChange={ctx.onChange}/>
+          <DeleteButton
+            pollId={ctx.id}
+            choiceId={props.choiceId}
+            onChange={ctx.onChange}
+            allLoad={props.allLoad}
+            loadAll={props.loadAll}
+            unloadAll={props.unloadAll}
+          />
         )}
       </div>
       <div className={styles.BotContainer} style={{ gap: gapValue }}>

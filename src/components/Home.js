@@ -10,7 +10,7 @@ function Home() {
     if (window.location.pathname !== "/") {
       navigate("/");
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <motion.div

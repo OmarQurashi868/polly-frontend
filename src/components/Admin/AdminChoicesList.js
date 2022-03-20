@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import styles from "./AdminChoicesList.module.css";
 import AdminChoice from "./AdminChoice";
 
@@ -5,10 +6,17 @@ const ChoicesList = (props) => {
   const voteValues = props.pollChoices.map((e) => e.voteCount);
   const highestVote = Math.max(...voteValues);
 
-  let isLastChoice = false;
+  const [allLoad, setAllLoad] = useState(false);
 
-  if (props.pollChoices.length === 1) {
-    isLastChoice = true;
+  const loadAll = () => {
+    setAllLoad(true);
+  };
+  const unloadAll = () => {
+    setAllLoad(false);
+  };
+
+  if (props.pollChoices.length < 1) {
+    return <div className={styles.Italics}> No choices available</div>;
   }
 
   return (
@@ -21,7 +29,10 @@ const ChoicesList = (props) => {
             choiceName={e.name}
             voteCount={e.voteCount}
             highestVote={highestVote}
-            isLastChoice={isLastChoice}
+            isLastChoice={props.pollChoices.length < 2}
+            allLoad={allLoad}
+            loadAll={loadAll}
+            unloadAll={unloadAll}
           />
         );
       })}

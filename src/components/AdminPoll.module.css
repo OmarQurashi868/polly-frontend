@@ -9,6 +9,7 @@
   color: white;
   box-sizing: border-box;
   width: 100%;
+  margin-top: 1rem;
 }
 
 .PollQuestion {
@@ -72,8 +73,14 @@
 .ErrorText a {
   color: #c7c75c;
   font-style: italic;
-  font-size: 1rem;
+  font-size: 1.5rem;
   font-weight: normal;
+}
+
+.ErrorContainer {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 10rem;
 }
 
 @media (min-width: 768px) {

@@ -32,6 +32,7 @@ const NewChoice = () => {
   }, [inputState]);
 
   const onCancelHandler = () => {
+    setErrorState();
     setInputState(false);
   };
 
@@ -69,6 +70,7 @@ const NewChoice = () => {
           for (const choice of choices) {
             if (choice.name === choiceRef.current.value) {
               alreadyExists = true;
+              setIsLoading(false);
               setErrorState("Choice already exists");
             }
           }

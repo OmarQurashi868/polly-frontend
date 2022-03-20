@@ -117,6 +117,11 @@ const Poll = () => {
     content = <div className={styles.Loader} />;
   }
 
+  const homeUrl = window.location.href.slice(
+    0,
+    window.location.href.search(/(?<!\/)\/(?!\/)/)
+  );
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -127,30 +132,32 @@ const Poll = () => {
     >
       <Navbar CreateButton />
       {!errorState && <SharingWidget pollId={id} />}
-      <Card className={styles.Container}>
-        {errorState ? (
+      {errorState ? (
+        <Card className={styles.ErrorContainer}>
           <div className={styles.ErrorText}>
             Poll with ID <span className={styles.Italics}>{id}</span> was not
             found!
+            <br />
+            <a href={homeUrl}>Home</a>
           </div>
-        ) : (
-          <Fragment>
-            <div className={styles.PollInfoContainer}>
-              {isTimed && <Timer timerData={timerData} />}
-              <div className={styles.PollQuestion}>{pollData.question}</div>
-              <div className={styles.PollNameText}>
-                {pollData.name && (
-                  <Fragment>
-                    Asked by{" "}
-                    <span className={styles.Italics}>{pollData.name}</span>
-                  </Fragment>
-                )}
-              </div>
+        </Card>
+      ) : (
+        <Card className={styles.Container}>
+          <div className={styles.PollInfoContainer}>
+            {isTimed && <Timer timerData={timerData} />}
+            <div className={styles.PollQuestion}>{pollData.question}</div>
+            <div className={styles.PollNameText}>
+              {pollData.name && (
+                <Fragment>
+                  Asked by{" "}
+                  <span className={styles.Italics}>{pollData.name}</span>
+                </Fragment>
+              )}
             </div>
-            {content}
-          </Fragment>
-        )}
-      </Card>
+          </div>
+          {content}
+        </Card>
+      )}
     </motion.div>
   );
 };
