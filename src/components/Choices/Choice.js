@@ -102,7 +102,7 @@ const Choice = (props) => {
         setTimeout(() => {
           setIsLoading(false);
           props.unloadAll();
-        }, 300);
+        }, 500);
         ctx.onChange();
       });
   };

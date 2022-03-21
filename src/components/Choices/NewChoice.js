@@ -11,7 +11,7 @@ const NewChoice = () => {
   const [errorState, setErrorState] = useState();
   const choiceRef = useRef();
   const [isLoading, setIsLoading] = useState(false)
-  let buttonStyles = `${styles.NewChoiceButton}`;
+  const [buttonStyles, setButtonStyles] = useState(`${styles.NewChoiceButton}`);
 
   const onButtonClickHandler = () => {
     setInputState(true);
@@ -50,7 +50,7 @@ const NewChoice = () => {
 
       let alreadyExists = false;
 
-      buttonStyles = `${styles.NewChoiceButton} ${styles.Disabled}`
+      setButtonStyles(`${styles.NewChoiceButton} ${styles.Disabled}`);
       setIsLoading(true);
 
       fetch(`${REACT_APP_BACKEND_URL}/${ctx.id}`, {
@@ -70,6 +70,7 @@ const NewChoice = () => {
           for (const choice of choices) {
             if (choice.name === choiceRef.current.value) {
               alreadyExists = true;
+              setButtonStyles(`${styles.NewChoiceButton}`);
               setIsLoading(false);
               setErrorState("Choice already exists");
             }
@@ -92,7 +93,7 @@ const NewChoice = () => {
               })
               .then((res) => {
                 choiceRef.current.value = "";
-                buttonStyles = `${styles.NewChoiceButton}`
+                setButtonStyles(`${styles.NewChoiceButton}`);
                 setIsLoading(false);
                 setInputState(false);
                 setErrorState();

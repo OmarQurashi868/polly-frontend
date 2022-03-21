@@ -27,7 +27,10 @@ const ChoicesList = (props) => {
 
     if (votedChoices) {
       for (const choice in votedChoices) {
-        if (votedChoices[choice] === true) {
+        if (
+          votedChoices[choice] === true &&
+          props.pollChoices.find((obj) => obj._id === choice)
+        ) {
           alreadyVoted = true;
           votedId = choice;
           break;

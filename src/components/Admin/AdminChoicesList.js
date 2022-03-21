@@ -7,6 +7,15 @@ const ChoicesList = (props) => {
   const highestVote = Math.max(...voteValues);
 
   const [allLoad, setAllLoad] = useState(false);
+  const [isLastChoice, setIsLastChoice] = useState(true);
+
+  useEffect(() => {
+    if (props.pollChoices.length < 2) {
+      setIsLastChoice(true);
+    } else {
+      setIsLastChoice(false);
+    }
+  }, [props.pollChoices])
 
   const loadAll = () => {
     setAllLoad(true);
@@ -29,7 +38,7 @@ const ChoicesList = (props) => {
             choiceName={e.name}
             voteCount={e.voteCount}
             highestVote={highestVote}
-            isLastChoice={props.pollChoices.length < 2}
+            isLastChoice={isLastChoice}
             allLoad={allLoad}
             loadAll={loadAll}
             unloadAll={unloadAll}
