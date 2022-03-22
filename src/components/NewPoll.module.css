@@ -10,6 +10,7 @@
   color: white;
   box-sizing: border-box;
   width: 100%;
+  margin-top: 1rem;
 }
 
 .Form {
@@ -107,12 +108,16 @@ Button {
   width: 20px;
   height: 20px;
   animation: spin 2s linear infinite;
-  margin: auto
+  margin: auto;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media (min-width: 768px) {

@@ -32,6 +32,10 @@ const NewPoll = () => {
       code: 2,
       message: "You need at least one choice",
     },
+    {
+      code: 3,
+      message: "Choices can't be duplicated",
+    },
   ];
 
   const [dateError, setDateError] = useState([]);
@@ -56,9 +60,9 @@ const NewPoll = () => {
   let buttonStyles;
 
   if (!isLoading) {
-    buttonStyles = `${styles.Button}`
+    buttonStyles = `${styles.Button}`;
   } else {
-    buttonStyles = `${styles.Button} ${styles.Disabled}`
+    buttonStyles = `${styles.Button} ${styles.Disabled}`;
   }
 
   const addQuestionError = (errCode) => {
@@ -174,19 +178,24 @@ const NewPoll = () => {
       }
     }
 
-    // Create poll
-    if (passedErrorCheck) {
-      setQuestionError([]);
+    const choicesData = [];
+    let choiceDupe = false;
 
-      const choicesData = [];
-
-      for (let i = 0; i < choices.length; i++) {
-        if (event.target[i + 2].value.length > 0) {
-          choicesData.push({
-            name: event.target[i + 2].value,
-          });
+    for (let i = 0; i < choices.length; i++) {
+      if (event.target[i + 2].value.length > 0) {
+        if (choicesData.find((obj) => obj.name === event.target[i + 2].value)) {
+          choiceDupe = true;
+          addQuestionError(3);
         }
+        choicesData.push({
+          name: event.target[i + 2].value,
+        });
       }
+    }
+
+    // Create poll
+    if (passedErrorCheck && !choiceDupe) {
+      setQuestionError([]);
 
       let pollData = {
         pollData: {
@@ -244,8 +253,8 @@ const NewPoll = () => {
             navigate(`/poll/${res._id}`);
           } else {
             // Change button state back
-            setIsLoading(false)
-            setQuestionError(res.message)
+            setIsLoading(false);
+            setQuestionError(res.message);
             console.log(res);
           }
         });
@@ -267,6 +276,17 @@ const NewPoll = () => {
   };
 
   const choiceChangeHandler = (event) => {
+    if (questionError.find((obj) => obj.code === 3)) {
+      setQuestionError((prevErrors) => {
+        let updatedErrors = [...prevErrors];
+        for (let i = 0; i < prevErrors.length; i++) {
+          if (prevErrors[i].code === 3) {
+            updatedErrors.splice(i, 1);
+          }
+        }
+        return updatedErrors;
+      });
+    }
     if (event.target.id === "choice0") {
       if (event.target.value.length > 0) {
         if (!choiceExists) {
