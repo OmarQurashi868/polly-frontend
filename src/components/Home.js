@@ -7,7 +7,11 @@ function Home() {
   let navigate = useNavigate();
 
   useEffect(() => {
-    if (window.location.pathname !== "/" && window.location.pathname !== "/newpoll") {
+    if (
+      window.location.pathname !== "/" &&
+      window.location.pathname !== "/newpoll" &&
+      window.location.pathname.startsWith("/poll")
+    ) {
       navigate("/");
     }
   }, [navigate]);
