@@ -117,10 +117,7 @@ const Poll = () => {
     content = <div className={styles.Loader} />;
   }
 
-  const homeUrl = window.location.href.slice(
-    0,
-    window.location.href.search(/(?<!\/)\/(?!\/)/)
-  );
+  const homeUrl = window.location.origin
 
   return (
     <motion.div

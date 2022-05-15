@@ -141,10 +141,7 @@ const Poll = () => {
       </div>
     );
   } else {
-    const homeUrl = window.location.href.slice(
-      0,
-      window.location.href.search(/(?<!\/)\/(?!\/)/)
-    );
+    const homeUrl = window.location.origin
 
     errorContent = (
       <div className={styles.ErrorText}>
