@@ -28,8 +28,8 @@ const SharingWidget = (props) => {
         <div className={styles.Container}>
           <input readOnly type="text" id="link" name="link" value={`${url}`} />
           <Button onClick={copyText} className={styles.Button}>
-            {/* {window.innerWidth > 768 ? `Copy` : `Select`} */}
-            Select
+            {window.innerWidth > 768 ? `Copy` : `Select`}
+            {/* Select */}
           </Button>
         </div>
       </div>
