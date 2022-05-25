@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./Home.module.css";
 import { motion } from "framer-motion";
 
+const { REACT_APP_BACKEND_URL } = process.env;
+
 function Home() {
   let navigate = useNavigate();
 
