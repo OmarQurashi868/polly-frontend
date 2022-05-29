@@ -21,7 +21,7 @@ function Home() {
   useEffect(() => {
     console.log("Waking up backend...");
     fetch(`${REACT_APP_BACKEND_URL}/wakeup`, {
-      method: "GET",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
