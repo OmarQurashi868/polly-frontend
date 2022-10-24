@@ -18,18 +18,6 @@ function Home() {
     }
   }, [navigate]);
 
-  useEffect(() => {
-    console.log("Waking up backend...");
-    fetch(`${REACT_APP_BACKEND_URL}/wakeup`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => {
-      console.log("Backend is up and running!");
-    });
-  }, []);
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
